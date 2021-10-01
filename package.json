@@ -1,0 +1,33 @@
+{
+  "name": "vanilla-nodejs-blog",
+  "version": "1.0.0",
+  "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --ignore views  --ignore public",
+    "start": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrikarKSV/vanilla-nodejs-blog.git"
+  },
+  "keywords": [
+    "blog",
+    "vanilla",
+    "nodejs"
+  ],
+  "author": "Srikar KSV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SrikarKSV/vanilla-nodejs-blog/issues"
+  },
+  "homepage": "https://github.com/SrikarKSV/vanilla-nodejs-blog#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mongoose": "^6.0.8",
+    "pug": "^3.0.2"
+  }
+}

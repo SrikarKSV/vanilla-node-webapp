@@ -16,10 +16,11 @@ The goals of the project:
 ## Todos:
 
 - [x] Make a logger
-- [ ] Learn to use headers to redirect users
-- [ ] Use javascript to give flashes
-- [ ] Landing page which will have latest 5 confessions
-- [ ] Confessions page with pagination
-- [ ] Confession should be accompanied by title, date and beginning of confession
 - [ ] Use pug and render error.stack if error or the html
+- [ ] Write error control
+- [ ] Learn to use headers to redirect users
+- [ ] Landing page which will have latest 5 confessions
+- [ ] Confession should be accompanied by title, date and beginning of confession
+- [ ] Use javascript to give flashes
+- [ ] Confessions page with pagination
 - [ ] Try authentication for moderator to delete or edit the confession

@@ -1,23 +1,22 @@
 const http = require('http');
+const path = require('path');
+const serveStatic = require('serve-static');
+const finalhandler = require('finalhandler');
 const morgan = require('./lib/morgan');
+const { ifRequestIsFile } = require('./lib/utils');
 
-// TODO: Make a logger
-// TODO: Learn to use headers to redirect users
-// TODO: Use javascript to give flashes
-// TODO: Landing page which will have latest 5 confessions
-// TODO: Confessions page with pagination
-// TODO: Confession should be accompanied by title, date and beginning of confession
-// TODO: Use pug and render error.stack if error or the html
-// *: Try authentication for moderator to delete or edit the confession
+const serve = serveStatic(path.join(__dirname, 'public'));
 
 const app = http.createServer(server);
 
 function server(req, res) {
-  const startTime = process.hrtime();
+  const startTime = process.hrtime(); // To calculate response time
+  if (ifRequestIsFile(req)) {
+    serve(req, res, finalhandler(req, res));
+    return;
+  }
 
-  if (req.url === '/favicon.ico') return res.end('Hello!');
-  // console.log(req.headers);
-  res.end('Hello world!!');
+  res.end('Hello World!');
   morgan.dev(req, res, startTime);
 }
 

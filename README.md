@@ -3,11 +3,8 @@
 The goals of the project:
 
 - Understand how expressjs works under the hood
-
 - Connect the small pieces that expressjs takes care of
-
-- Imitate the functionality that some useful middlewares take care of
-
+- Imitate the functionality that some useful middlewares takes care of
 - Study the source code of these middlewares to imitate their functionality
 
 **NOT** the goals of the project:

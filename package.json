@@ -2,7 +2,7 @@
   "name": "vanilla-nodejs-blog",
   "version": "1.0.0",
   "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon --ignore views  --ignore public",
     "start": "node"

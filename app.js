@@ -1,4 +1,5 @@
 const http = require('http');
+const morgan = require('./lib/morgan');
 
 // TODO: Make a logger
 // TODO: Learn to use headers to redirect users
@@ -9,13 +10,15 @@ const http = require('http');
 // TODO: Use pug and render error.stack if error or the html
 // *: Try authentication for moderator to delete or edit the confession
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/favicon.ico') return;
-  console.log(req.headers);
-  res.end('Hello world!!');
-});
+const app = http.createServer(server);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`✅ Server running on : http://localhost:${PORT}`)
-);
+function server(req, res) {
+  const startTime = process.hrtime();
+
+  if (req.url === '/favicon.ico') return res.end('Hello!');
+  // console.log(req.headers);
+  res.end('Hello world!!');
+  morgan.dev(req, res, startTime);
+}
+
+module.exports = app;

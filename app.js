@@ -4,9 +4,11 @@ const serveStatic = require('serve-static');
 const finalhandler = require('finalhandler');
 const morgan = require('./lib/morgan');
 const { ifRequestIsFile } = require('./lib/utils');
+const render = require('./lib/renderPug');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
+// TODO: Complete error handling with eventemitter
 const app = http.createServer(server);
 
 function server(req, res) {
@@ -15,8 +17,9 @@ function server(req, res) {
     serve(req, res, finalhandler(req, res));
     return;
   }
+  res.render = render;
 
-  res.end('Hello World!');
+  res.render('index', { name: 'Srikar' });
   morgan.dev(req, res, startTime);
 }
 

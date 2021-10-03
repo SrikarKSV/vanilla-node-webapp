@@ -13,13 +13,19 @@ const app = http.createServer(server);
 
 function server(req, res) {
   const startTime = process.hrtime(); // To calculate response time
-  if (ifRequestIsFile(req)) {
-    serve(req, res, finalhandler(req, res));
-    return;
-  }
   res.render = render;
+  res.on('error', (statusCode, err) => {
+    res.statusCode = statusCode;
+    res.render('error', { err: err });
+  });
+  if (ifRequestIsFile(req)) {
+    return serve(req, res, () =>
+      res.emit('error', 404, 'Cannot get the requested file!')
+    );
+  }
 
   res.render('index', { name: 'Srikar' });
+
   morgan.dev(req, res, startTime);
 }
 

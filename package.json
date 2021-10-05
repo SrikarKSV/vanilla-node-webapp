@@ -4,7 +4,7 @@
   "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --ignore views  --ignore public",
+    "dev": "cross-env NODE_ENV=development nodemon --ignore views  --ignore public",
     "start": "node"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "nodemon": "^2.0.13"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "finalhandler": "^1.1.2",
     "mongoose": "^6.0.8",

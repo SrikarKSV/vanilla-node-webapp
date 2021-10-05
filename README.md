@@ -16,7 +16,7 @@ The goals of the project:
 ## Todos:
 
 - [x] Make a logger
-- [ ] Use pug and render error.stack if error or the html
+- [x] Use pug and render error.stack if error or the html
 - [ ] Write error control, use EventEmitter
 - [ ] Learn to use headers to redirect users
 - [ ] Landing page which will have latest 5 confessions

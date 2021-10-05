@@ -7,4 +7,6 @@ html(lang="en")
         title Error
     body
         h1 Error detected 
-        pre #{err}
+        h2= status
+        p= message
+        pre!= stackHighlighted

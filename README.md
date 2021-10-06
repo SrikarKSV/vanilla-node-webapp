@@ -17,7 +17,7 @@ The goals of the project:
 
 - [x] Make a logger
 - [x] Use pug and render error.stack if error or the html
-- [ ] Write error control, use EventEmitter
+- [x] Write error control, use EventEmitter
 - [ ] Learn to use headers to redirect users
 - [ ] Landing page which will have latest 5 confessions
 - [ ] Confession should be accompanied by title, date and beginning of confession

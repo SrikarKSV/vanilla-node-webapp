@@ -15,7 +15,7 @@ const app = http.createServer(server);
 
 function server(req, res) {
   const startTime = process.hrtime(); // To calculate response time
-  res.render = render;
+  res.render = render(req, res);
   res.on('error', (err) => globalErrorHandler(err, req, res));
   if (ifRequestIsFile(req)) {
     const errorResponse = `${req.headers.host}${req.url} does not exist!`;

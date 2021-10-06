@@ -1,7 +1,6 @@
 const http = require('http');
 const path = require('path');
 const serveStatic = require('serve-static');
-const finalhandler = require('finalhandler');
 const onFinished = require('on-finished');
 
 const morgan = require('./lib/morgan');
@@ -19,11 +18,9 @@ function server(req, res) {
   res.render = render;
   res.on('error', (err) => globalErrorHandler(err, req, res));
   if (ifRequestIsFile(req)) {
+    const errorResponse = `${req.headers.host}${req.url} does not exist!`;
     serve(req, res, () =>
-      res.emit(
-        'error',
-        new ErrorResponse(`${req.headers.host}${req.url} does not exist!`, 500)
-      )
+      res.emit('error', new ErrorResponse(errorResponse, 500))
     );
   }
 

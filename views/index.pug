@@ -5,12 +5,17 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   link(rel="stylesheet", href="/css/main.css")
   title Home | Anonymous Confessions
-header
-  h1 Anonymous Confessions
-  nav
-    ul
-      li Home
-      li All confessions
-main
-  section
+body
+  header
+    h1 Anonymous Confessions
+    nav
+      ul
+        li Home
+        li All confessions
+  main
+    section
       h1 #{name} 
+      p This URL is: #{req.url}
+  script.
+    const name = "#{name}";
+  script(src="/js/main.js") 

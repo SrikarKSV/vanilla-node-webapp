@@ -22,14 +22,16 @@ function server(req, res) {
   if (ifRequestIsFile(req)) {
     const errorMessage = `${req.headers.host}${req.url} does not exist!`;
     serve(req, res, () =>
-      res.emit('error', new ErrorResponse(errorMessage, 500))
+      res.emit('error', new ErrorResponse(errorMessage, 404))
     );
   }
 
   // Routes
   if (req.url.match(/^\/$|\/new/)) homeRouter(req, res);
 
-  onFinished(res, () => morgan.dev(req, res, startTime));
+  // After request-response is done
+  if (process.env.NODE_ENV === 'development')
+    onFinished(res, () => morgan.dev(req, res, startTime));
 }
 
 module.exports = app;

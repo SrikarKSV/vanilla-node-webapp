@@ -8,23 +8,26 @@ const { ifRequestIsFile } = require('./lib/utils');
 const render = require('./lib/renderPug');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
+const homeRouter = require('./routes/homeRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
 const app = http.createServer(server);
 
 function server(req, res) {
+  // Middlewares
   const startTime = process.hrtime(); // To calculate response time
   res.render = render(req, res);
   res.on('error', (err) => globalErrorHandler(err, req, res));
   if (ifRequestIsFile(req)) {
-    const errorResponse = `${req.headers.host}${req.url} does not exist!`;
+    const errorMessage = `${req.headers.host}${req.url} does not exist!`;
     serve(req, res, () =>
-      res.emit('error', new ErrorResponse(errorResponse, 500))
+      res.emit('error', new ErrorResponse(errorMessage, 500))
     );
   }
 
-  if (req.url === '/') res.render('index', { name: 'Srikar' });
+  // Routes
+  if (req.url.match(/^\/$|\/new/)) homeRouter(req, res);
 
   onFinished(res, () => morgan.dev(req, res, startTime));
 }

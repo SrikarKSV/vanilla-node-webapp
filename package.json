@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --ignore views  --ignore public",
-    "start": "node"
+    "start": "cross-env NODE_ENV=production node"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,10 @@
   "dependencies": {
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "finalhandler": "^1.1.2",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",
     "pug": "^3.0.2",
-    "serve-static": "^1.14.1"
+    "serve-static": "^1.14.1",
+    "slugify": "^1.6.1"
   }
 }

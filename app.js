@@ -26,12 +26,16 @@ function server(req, res) {
     );
   }
 
+  // Development logging
+  if (process.env.NODE_ENV === 'development')
+    onFinished(res, () => morgan.dev(req, res, startTime)); // onFini
+
   // Routes
   if (req.url.match(/^\/$|\/new/)) homeRouter(req, res);
-
-  // After request-response is done
-  if (process.env.NODE_ENV === 'development')
-    onFinished(res, () => morgan.dev(req, res, startTime));
+  else if (req.url.match(/./) && !ifRequestIsFile(req)) {
+    // Unhandled routes which are not assets
+    res.emit('error', new ErrorResponse('Resource not found', 404));
+  }
 }
 
 module.exports = app;

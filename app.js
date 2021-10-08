@@ -9,6 +9,7 @@ const render = require('./lib/renderPug');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const homeRouter = require('./routes/homeRouter');
+const confessionRouter = require('./routes/confessionRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
@@ -28,10 +29,11 @@ function server(req, res) {
 
   // Development logging
   if (process.env.NODE_ENV === 'development')
-    onFinished(res, () => morgan.dev(req, res, startTime)); // onFini
+    onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
 
   // Routes
-  if (req.url.match(/^\/$|\/new/)) homeRouter(req, res);
+  if (req.url.match(/^\/$|^\/new(\/)?$/)) homeRouter(req, res);
+  else if (req.url.match(/^\/confessions\b/)) confessionRouter(req, res);
   else if (req.url.match(/./) && !ifRequestIsFile(req)) {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));

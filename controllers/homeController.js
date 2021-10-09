@@ -3,3 +3,7 @@ exports.home = (req, res) => {
     name: 'Srikar',
   });
 };
+
+exports.newConfession = (req, res) => {
+  res.render('new-confession');
+};

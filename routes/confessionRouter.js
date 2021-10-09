@@ -1,3 +1,4 @@
+const confessionController = require('../controllers/confessionController');
 const ErrorResponse = require('../lib/errorResponse');
 
 function router(req, res) {
@@ -15,6 +16,7 @@ function router(req, res) {
     case 'POST':
       if (URL.match(/^\/confessions(\/)?$/)) {
         // TODO: Create the confession
+        confessionController.createConfession(req, res);
       }
       break;
     default:

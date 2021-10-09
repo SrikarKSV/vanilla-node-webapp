@@ -14,7 +14,9 @@
   "keywords": [
     "blog",
     "vanilla",
-    "nodejs"
+    "nodejs",
+    "confessions",
+    "anonymous"
   ],
   "author": "Srikar KSV",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "nodemon": "^2.0.13"
   },
   "dependencies": {
+    "co-body": "^6.1.0",
     "dotenv": "^10.0.0",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",

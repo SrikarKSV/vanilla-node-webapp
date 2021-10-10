@@ -34,7 +34,9 @@ function server(req, res) {
   // Routes
   if (req.url.match(/^\/$|^\/new(\/)?$/)) homeRouter(req, res);
   else if (
-    req.url.match(/^\/confessions(\/)?$|^\/confessions\?|^\/confessions\/\w+$/)
+    req.url.match(
+      /^\/confessions(\/)?$|^\/confessions\?|^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/
+    )
   )
     confessionRouter(req, res);
   else if (!ifRequestIsFile(req)) {

@@ -11,8 +11,11 @@ exports.createConfession = async (req, res) => {
   res.end();
 };
 
-exports.confession = async (req, res) => {
+exports.getConfession = async (req, res) => {
   const slug = path.parse(req.url).base;
-  const { title, confession } = await Confession.findOne({ slug });
-  res.render('confession', { title, confession });
+  const singleConfession = await Confession.findOne({ slug });
+  singleConfession.viewCount += 1;
+  singleConfession.save();
+  const { title, confession, viewCount, createdAt } = singleConfession;
+  res.render('confession', { title, confession, viewCount, createdAt });
 };

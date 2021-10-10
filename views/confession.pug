@@ -7,6 +7,8 @@ html(lang="en")
         link(rel="stylesheet", href="/css/main.css")
         title #{title} | Confessions
     body 
-        h1 #{title}
+        h1= title
+        p= `View count: ${viewCount}` 
+        time= createdAt
         hr
-        p #{confession}
+        p= confession

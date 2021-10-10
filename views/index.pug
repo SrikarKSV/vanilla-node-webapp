@@ -10,8 +10,9 @@ body
     h1 Anonymous Confessions
     nav
       ul
-        li Home
-        li All confessions
+        li: a(href="/") Home
+        li: a(href="/confessions") All confessions
+        li: a(href="/new") Write a confession
   main
     section
       h1 #{name} 

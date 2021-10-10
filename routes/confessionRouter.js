@@ -11,7 +11,7 @@ function router(req, res) {
         // TODO: Show all confessions
       } else if (URL.match(/^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/)) {
         // TODO: Show inidividual confession
-        confessionController.confession(req, res);
+        confessionController.getConfession(req, res);
       }
       break;
     case 'POST':

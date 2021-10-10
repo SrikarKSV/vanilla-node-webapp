@@ -11,6 +11,7 @@ function router(req, res) {
         // TODO: Show all confessions
       } else if (URL.match(/^\/confessions\/\w+/)) {
         // TODO: Show inidividual confession
+        confessionController.confession(req, res);
       }
       break;
     case 'POST':

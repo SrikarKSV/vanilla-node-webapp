@@ -38,7 +38,7 @@ confessionSchema.pre('save', async function (next) {
   // find other slugs with same title like i-did, i-did-2
   const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
   const confessionSlugs = await this.constructor.find({ slug: slugRegEx });
-  if (storesWithSlug.length)
+  if (confessionSlugs.length)
     this.slug = `${this.slug}-${confessionSlugs.length + 1}`;
   next();
 });

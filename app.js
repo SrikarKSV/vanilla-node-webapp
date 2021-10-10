@@ -33,8 +33,11 @@ function server(req, res) {
 
   // Routes
   if (req.url.match(/^\/$|^\/new(\/)?$/)) homeRouter(req, res);
-  else if (req.url.match(/^\/confessions\b/)) confessionRouter(req, res);
-  else if (req.url.match(/./) && !ifRequestIsFile(req)) {
+  else if (
+    req.url.match(/^\/confessions(\/)?$|^\/confessions\?|^\/confessions\/\w+$/)
+  )
+    confessionRouter(req, res);
+  else if (!ifRequestIsFile(req)) {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));
   }

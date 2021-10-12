@@ -20,7 +20,7 @@ The goals of the project:
 - [x] Write error control, use EventEmitter
 - [x] Learn to use headers to redirect users
 - [ ] Landing page which will have latest 5 confessions
-- [ ] Confession should be accompanied by title, date and beginning of confession
+- [x] Confession should be accompanied by title, date and beginning of confession
 - [ ] Use javascript to give flashes
-- [ ] Confessions page with pagination
+- [x] Confessions page with pagination
 - [ ] Try authentication for moderator to delete or edit the confession

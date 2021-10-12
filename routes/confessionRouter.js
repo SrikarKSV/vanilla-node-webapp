@@ -9,6 +9,7 @@ function router(req, res) {
     case 'GET':
       if (URL.match(/^\/confessions(\/)?$|^\/confessions\?/)) {
         // TODO: Show all confessions
+        confessionController.getAllConfessions(req, res);
       } else if (URL.match(/^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/)) {
         // TODO: Show inidividual confession
         confessionController.getConfession(req, res);

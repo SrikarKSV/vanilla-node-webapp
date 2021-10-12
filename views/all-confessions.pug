@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/css/main.css")
+        title #{title} | Confessions
+    body 
+        h1 All confessions 
+        each confession in confessions 
+            h2: a(href=`/confessions/${confession.slug}`)= confession.title
+            p= confession.confession.slice(0, 30) + "..."
+            time= confession.createdAt
+        br
+        br
+        if prevPage 
+            a(href=`/confessions?page=${prevPage}`): button Previous Page
+        if nextPage 
+            a(href=`/confessions?page=${nextPage}`): button Next page

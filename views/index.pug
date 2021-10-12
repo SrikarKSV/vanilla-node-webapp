@@ -15,8 +15,11 @@ body
         li: a(href="/new") Write a confession
   main
     section
-      h1 #{name} 
-      p This URL is: #{req.url}
+      h1 Popular confessions in last 24 hours
+      each confession in top5Confessions 
+        h2: a(href=`/confessions/${confession.slug}`)= confession.title
+        p= confession.confession.slice(0, 30) + "..."
+        time= confession.createdAt
   script.
     const name = "#{name}";
   script(src="/js/main.js") 

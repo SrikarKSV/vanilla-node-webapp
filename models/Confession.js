@@ -43,6 +43,27 @@ confessionSchema.pre('save', async function (next) {
   next();
 });
 
+confessionSchema.statics.getTop5Confessions = function () {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  return this.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: yesterday, $lte: today },
+      },
+    },
+    {
+      $sort: {
+        viewCount: -1,
+      },
+    },
+    {
+      $limit: 5,
+    },
+  ]);
+};
+
 const confessionModel = mongoose.model('Confession', confessionSchema);
 
 module.exports = confessionModel;

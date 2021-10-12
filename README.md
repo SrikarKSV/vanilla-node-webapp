@@ -19,7 +19,7 @@ The goals of the project:
 - [x] Use pug and render error.stack if error or the html
 - [x] Write error control, use EventEmitter
 - [x] Learn to use headers to redirect users
-- [ ] Landing page which will have latest 5 confessions
+- [x] Landing page which will have 5 most popular confessions in last 24 hours (Usage of aggregations)
 - [x] Confession should be accompanied by title, date and beginning of confession
 - [ ] Use javascript to give flashes
 - [x] Confessions page with pagination

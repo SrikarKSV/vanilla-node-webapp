@@ -1,4 +1,5 @@
 const homeController = require('../controllers/homeController');
+const { catchAsync } = require('../helpers/errorHandlers');
 const ErrorResponse = require('../lib/errorResponse');
 
 function router(req, res) {
@@ -7,7 +8,7 @@ function router(req, res) {
 
   switch (httpMethod) {
     case 'GET':
-      if (URL === '/') homeController.home(req, res);
+      if (URL === '/') catchAsync(homeController.home, req, res);
       else if (URL.match(/\/new(\/)?/)) homeController.newConfession(req, res);
       // TODO: Add edit route if admin functionality is added
       break;

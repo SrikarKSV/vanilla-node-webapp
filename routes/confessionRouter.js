@@ -1,4 +1,5 @@
 const confessionController = require('../controllers/confessionController');
+const { catchAsync } = require('../helpers/errorHandlers');
 const ErrorResponse = require('../lib/errorResponse');
 
 function router(req, res) {
@@ -7,19 +8,14 @@ function router(req, res) {
 
   switch (httpMethod) {
     case 'GET':
-      if (URL.match(/^\/confessions(\/)?$|^\/confessions\?/)) {
-        // TODO: Show all confessions
-        confessionController.getAllConfessions(req, res);
-      } else if (URL.match(/^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/)) {
-        // TODO: Show inidividual confession
-        confessionController.getConfession(req, res);
-      }
+      if (URL.match(/^\/confessions(\/)?$|^\/confessions\?/))
+        catchAsync(confessionController.getAllConfessions, req, res);
+      else if (URL.match(/^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/))
+        catchAsync(confessionController.getConfession, req, res);
       break;
     case 'POST':
-      if (URL.match(/^\/confessions(\/)?$/)) {
-        // TODO: Create the confession
-        confessionController.createConfession(req, res);
-      }
+      if (URL.match(/^\/confessions(\/)?$/))
+        catchAsync(confessionController.createConfession, req, res);
       break;
     default:
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;

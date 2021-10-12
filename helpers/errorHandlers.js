@@ -1,3 +1,9 @@
+exports.catchAsync = (fn, req, res) => {
+  return fn(req, res).catch((err) => {
+    res.emit('error', err);
+  });
+};
+
 function sendErrorDev(err, req, res) {
   err.stack = err.stack || '';
   const errorDetails = {

@@ -6,6 +6,7 @@ const onFinished = require('on-finished');
 const morgan = require('./lib/morgan');
 const { ifRequestIsFile } = require('./lib/utils');
 const render = require('./lib/renderPug');
+const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const homeRouter = require('./routes/homeRouter');
@@ -26,6 +27,7 @@ function server(req, res) {
       res.emit('error', new ErrorResponse(errorMessage, 404))
     );
   }
+  req.cookies = cookieParser(req);
 
   // Development logging
   if (process.env.NODE_ENV === 'development')

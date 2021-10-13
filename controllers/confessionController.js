@@ -8,7 +8,8 @@ exports.getAllConfessions = async (req, res) => {
   const url = new URL(`https://${req.headers.host}${req.url}`);
   let page = parseInt(url.searchParams.get('page')) || 1;
   let skip = perPage * (page - 1);
-  page = totalConfessions <= skip ? 1 : page; // If page exceeds confession count then it's reset to 1
+  // If page exceeds confession count then it's reset to 1
+  page = totalConfessions <= skip ? 1 : page;
   skip = perPage * (page - 1);
   const confessions = await Confession.find()
     .sort('-createdAt')

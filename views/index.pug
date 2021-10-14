@@ -13,6 +13,14 @@ body
         li: a(href="/") Home
         li: a(href="/confessions") All confessions
         li: a(href="/new") Write a confession
+    if flashes 
+      - const categories = Object.keys(flashes)
+      each category in categories
+        each message in flashes[category]
+          .flash(class=`flash--${category}`)
+            p= message
+            button.flash__remove(onClick="this.parentElement.remove()") &times;
+
   main
     section
       h1 Popular confessions in last 24 hours

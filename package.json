@@ -30,8 +30,11 @@
   },
   "dependencies": {
     "co-body": "^6.1.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.6.0",
     "cookie": "^0.4.1",
     "dotenv": "^10.0.0",
+    "express-session": "^1.17.2",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",
     "pug": "^3.0.2",

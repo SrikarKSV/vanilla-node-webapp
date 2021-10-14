@@ -2,6 +2,9 @@ const http = require('http');
 const path = require('path');
 const serveStatic = require('serve-static');
 const onFinished = require('on-finished');
+const flash = require('connect-flash');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const morgan = require('./lib/morgan');
 const { ifRequestIsFile } = require('./lib/utils');
@@ -14,11 +17,34 @@ const confessionRouter = require('./routes/confessionRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
-const app = http.createServer(server);
+const DB =
+  process.env.NODE_ENV === 'development'
+    ? process.env.DATABASE_DEV
+    : process.env.DATABASE_PROD.replace(
+        '<PASSWORD>',
+        process.env.DATABASE_PASSWORD
+      );
+
+const sessionHandler = session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: DB }),
+});
+
+const flashHandler = flash();
+// TODO: Handle req.flashes and local.flashes
+const app = http.createServer((req, res) => {
+  sessionHandler(req, res, () => {
+    req.cookies = cookieParser(req);
+    flashHandler(req, res, () => server(req, res));
+  });
+});
 
 function server(req, res) {
   // Middlewares
   const startTime = process.hrtime(); // To calculate response time
+  req.flashes = req.flash();
   res.render = render(req, res);
   res.on('error', (err) => globalErrorHandler(err, req, res));
   if (ifRequestIsFile(req)) {
@@ -27,7 +53,6 @@ function server(req, res) {
       res.emit('error', new ErrorResponse(errorMessage, 404))
     );
   }
-  req.cookies = cookieParser(req);
 
   // Development logging
   if (process.env.NODE_ENV === 'development')

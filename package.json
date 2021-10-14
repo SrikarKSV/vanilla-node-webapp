@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "co-body": "^6.1.0",
+    "cookie": "^0.4.1",
     "dotenv": "^10.0.0",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",

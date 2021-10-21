@@ -29,10 +29,12 @@
     "nodemon": "^2.0.13"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "co-body": "^6.1.0",
     "cookie": "^0.4.1",
     "date-fns": "^2.25.0",
     "dotenv": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",
     "pug": "^3.0.2",

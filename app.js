@@ -11,6 +11,7 @@ const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
+const authRouter = require('./routes/authRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
@@ -41,6 +42,8 @@ function server(req, res) {
     )
   )
     confessionRouter(req, res);
+  else if (req.url.match(/^\/login(\/)?$|^\/logout(\/)?$|^\/signup(\/)?$/))
+    authRouter(req, res);
   else if (!ifRequestIsFile(req)) {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));

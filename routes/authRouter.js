@@ -1,3 +1,4 @@
+const authController = require('../controllers/authController');
 const ErrorResponse = require('../lib/errorResponse');
 
 function router(req, res) {
@@ -6,20 +7,13 @@ function router(req, res) {
 
   switch (httpMethod) {
     case 'GET':
-      if (URL.match(/^\/login(\/)?$/)) {
-        res.end('GET - Login');
-      } else if (URL.match(/^\/logout(\/)?$/)) {
-        res.end('GET - Logout');
-      } else if (URL.match(/^\/signup(\/)?$/)) {
-        res.end('GET - Sign up');
-      }
+      if (URL.match(/^\/login(\/)?$/)) authController.getLogin(req, res);
+      else if (URL.match(/^\/logout(\/)?$/)) authController.logout(req, res);
+      else if (URL.match(/^\/signup(\/)?$/)) authController.getSignup(req, res);
       break;
     case 'POST':
-      if (URL.match(/^\/login(\/)?$/)) {
-        res.end('POST - Login');
-      } else if (URL.match(/^\/signup(\/)?$/)) {
-        res.end('POST - Sign up');
-      }
+      if (URL.match(/^\/login(\/)?$/)) authController.login(req, res);
+      else if (URL.match(/^\/signup(\/)?$/)) authController.signup(req, res);
       break;
     default:
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;

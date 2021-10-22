@@ -9,17 +9,20 @@ const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
+
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
 const authRouter = require('./routes/authRouter');
+const { checkUser } = require('./helpers/authMiddlewares');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
 const app = http.createServer(server);
 
-function server(req, res) {
+async function server(req, res) {
   // Middlewares
   const startTime = process.hrtime(); // To calculate response time
+  res.locals = {};
   res.render = render(req, res);
   res.on('error', (err) => globalErrorHandler(err, req, res));
   if (ifRequestIsFile(req)) {
@@ -33,6 +36,8 @@ function server(req, res) {
   // Development logging
   if (process.env.NODE_ENV === 'development')
     onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
+
+  if (!ifRequestIsFile(req)) res.locals.user = await checkUser(req, res);
 
   // Routes
   if (req.url.match(/^\/$|^\/new(\/)?$/)) homeRouter(req, res);

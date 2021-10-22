@@ -1,7 +1,14 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-function requireAuth(req, res) {}
+function requireAuth(res, roles, callback) {
+  const user = res.locals?.user;
+  if (!user) return res.writeHead(302, { location: `/login` }).end(); // TODO: Flash that only staff can access
+  if (!roles.includes(user.role))
+    return res.writeHead(302, { location: `/` }).end(); // TODO: Flash your role can't perform this action
+
+  callback();
+}
 
 function checkUser(req, res) {
   return new Promise((resolve, reject) => {
@@ -20,4 +27,4 @@ function checkUser(req, res) {
   });
 }
 
-module.exports = { checkUser };
+module.exports = { requireAuth, checkUser };

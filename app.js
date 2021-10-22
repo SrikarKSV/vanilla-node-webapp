@@ -4,7 +4,7 @@ const serveStatic = require('serve-static');
 const onFinished = require('on-finished');
 
 const morgan = require('./lib/morgan');
-const { ifRequestIsFile } = require('./lib/utils');
+const { ifRequestIsFile, matchURL } = require('./lib/utils');
 const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
@@ -41,18 +41,32 @@ async function server(req, res) {
   if (!ifRequestIsFile(req)) res.locals.user = await checkUser(req, res);
 
   // Routes
-  if (req.url.match(/^\/$|^\/new(\/)?$/)) homeRouter(req, res);
+  if (matchURL([/^\/$/, /^\/new(\/)?$/], req.url)) homeRouter(req, res);
   else if (
-    req.url.match(
-      /^\/confessions(\/)?$|^\/confessions\?|^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/
+    matchURL(
+      [
+        /^\/confessions(\/)?$/,
+        /^\/confessions\?/,
+        /^\/confessions\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/,
+      ],
+      req.url
     )
   )
     confessionRouter(req, res);
-  else if (req.url.match(/^\/login(\/)?$|^\/logout(\/)?$|^\/signup(\/)?$/))
+  else if (
+    matchURL([/^\/login(\/)?$/, /^\/logout(\/)?$/, /^\/signup(\/)?$/], req.url)
+  )
     authRouter(req, res);
   else if (
-    req.url.match(
-      /^\/admin(\/)?$|^\/profile\/\w+$|^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$|^\/mark(\/)?$|^\/delete(\/)?$/
+    matchURL(
+      [
+        /^\/admin(\/)?$/,
+        /^\/profile\/\w+$/,
+        /^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/,
+        /^\/mark(\/)?$/,
+        /^\/delete(\/)?$/,
+      ],
+      req.url
     )
   )
     adminRouter(req, res);

@@ -31,8 +31,8 @@ exports.getAllConfessions = async (req, res) => {
 exports.createConfession = async (req, res) => {
   const { title, confession } = await parse.form(req);
   const createdConfession = await Confession.create({ title, confession });
-  res.writeHead(302, {
-    location: `http://localhost:3000/confessions/${createdConfession.slug}`,
+  res.writeHead(303, {
+    location: `/confessions/${createdConfession.slug}`,
   });
   res.end();
 };

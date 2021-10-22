@@ -24,3 +24,8 @@ The goals of the project:
 - [ ] Use javascript to give flashes
 - [x] Confessions page with pagination
 - [ ] Try authentication for moderator to delete or edit the confession
+- [ ] Make two userW roles for staff - moderator and admin
+- [ ] Only admin can make new staff accounts
+- [ ] Moderator can mark and edit confessions but not delete
+- [ ] Admin can view the marked confessions and delete them
+- [ ] Profile page for staff with titles they edited and marked

@@ -9,11 +9,12 @@ const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
+const { checkUser } = require('./helpers/authMiddlewares');
 
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
 const authRouter = require('./routes/authRouter');
-const { checkUser } = require('./helpers/authMiddlewares');
+const adminRouter = require('./routes/adminRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
@@ -49,6 +50,12 @@ async function server(req, res) {
     confessionRouter(req, res);
   else if (req.url.match(/^\/login(\/)?$|^\/logout(\/)?$|^\/signup(\/)?$/))
     authRouter(req, res);
+  else if (
+    req.url.match(
+      /^\/admin(\/)?$|^\/profile\/\w+$|^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$|^\/mark(\/)?$|^\/delete(\/)?$/
+    )
+  )
+    adminRouter(req, res);
   else if (!ifRequestIsFile(req)) {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));

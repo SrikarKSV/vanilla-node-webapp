@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'Username is required'],
+    unique: true,
   },
   password: {
     type: String,
@@ -22,6 +23,14 @@ const userSchema = new mongoose.Schema({
     type: [String],
   },
 });
+
+userSchema.pre('save', async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// TODO: Catch unique error
 
 const userModel = mongoose.model('User', userSchema);
 

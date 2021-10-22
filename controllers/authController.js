@@ -23,14 +23,22 @@ exports.login = async (req, res) => {
 
   if (!username || !password) {
     // TODO: If possible use flash and redirect back
-    return res.writeHead(302, { location: `/login` });
+    return res.writeHead(302, { location: `/login` }).end();
   }
 
   const user = await User.findOne({ username });
 
-  if (!user) return res.writeHead(302, { location: `/login` }); // TODO: FLash user doesn't exist
+  if (!user) {
+    // TODO: FLash user doesn't exist
+    console.log('User does not exist');
+    return res.writeHead(302, { location: `/login` }).end();
+  }
   const auth = await bcrypt.compare(password, user.password);
-  if (!auth) return res.writeHead(302, { location: '/login' }); // TODO: Flash password incorrect
+  if (!auth) {
+    // TODO: FLash password incorrect
+    console.log('Password incorrect');
+    return res.writeHead(302, { location: `/login` }).end();
+  }
 
   createSendToken(user, res);
 };
@@ -39,7 +47,7 @@ exports.signup = async (req, res) => {
   const { username, password, role } = await parse.form(req);
 
   if (!username || !password || !role) {
-    return res.writeHead(302, { location: `/login` });
+    return res.writeHead(302, { location: `/login` }).end();
   }
 
   const user = await User.create({ username, password, role });

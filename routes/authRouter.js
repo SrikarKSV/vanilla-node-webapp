@@ -1,4 +1,6 @@
 const authController = require('../controllers/authController');
+const { checkUser } = require('../helpers/authMiddlewares');
+const { catchAsync } = require('../helpers/errorHandlers');
 const ErrorResponse = require('../lib/errorResponse');
 
 function router(req, res) {
@@ -12,8 +14,10 @@ function router(req, res) {
       else if (URL.match(/^\/signup(\/)?$/)) authController.getSignup(req, res);
       break;
     case 'POST':
-      if (URL.match(/^\/login(\/)?$/)) authController.login(req, res);
-      else if (URL.match(/^\/signup(\/)?$/)) authController.signup(req, res);
+      if (URL.match(/^\/login(\/)?$/))
+        catchAsync(authController.login, req, res);
+      else if (URL.match(/^\/signup(\/)?$/))
+        catchAsync(authController.signup, req, res);
       break;
     default:
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;

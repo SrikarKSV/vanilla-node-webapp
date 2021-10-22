@@ -21,7 +21,12 @@ const confessionSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  editedByAdmin: {
+  editedByStaff: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  markedAsSpam: {
     type: Boolean,
     default: false,
   },

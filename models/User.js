@@ -12,21 +12,33 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: 8,
   },
+  slug: String,
   role: {
     type: String,
     enum: ['mod', 'admin'],
   },
-  postsMarked: {
-    type: [String],
-  },
-  postsEdited: {
-    type: [String],
-  },
+  postsMarked: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Confession',
+    },
+  ],
+  postsEdited: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Confession',
+    },
+  ],
 });
 
 userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
+
+  this.slug = slugify(this.username, {
+    lower: true,
+    strict: true,
+  });
   next();
 });
 

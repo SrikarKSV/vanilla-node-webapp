@@ -62,7 +62,7 @@ async function server(req, res) {
       [
         /^\/admin(\/)?$/,
         /^\/profile\/\w+$/,
-        /^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/,
+        /^\/edit\/[a-f\d]{24}$/i,
         /^\/mark(\/)?$/,
         /^\/delete(\/)?$/,
       ],

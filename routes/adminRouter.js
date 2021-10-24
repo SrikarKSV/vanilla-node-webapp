@@ -16,13 +16,19 @@ function router(req, res) {
         requireAuth(res, ['admin', 'mod'], () =>
           adminController.profile(req, res)
         );
-      else if (URL.match(/^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/))
-        res.end('GET - Edit');
+      else if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
+        requireAuth(res, ['admin', 'mod'], () =>
+          adminController.getEdit(req, res)
+        );
+      break;
+    case 'POST':
+      if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
+        requireAuth(res, ['admin', 'mod'], () =>
+          adminController.edit(req, res)
+        );
       break;
     case 'PATCH':
-      if (URL.match(/^\/edit\/[a-z0-9]+(?:-[a-z0-9]+)*(\/)?$/))
-        res.end('POST - Edit');
-      else if (URL.match(/^\/mark(\/)?$/)) res.end('PATCH - Mark');
+      if (URL.match(/^\/mark(\/)?$/)) res.end('PATCH - Mark');
       break;
     case 'DELETE':
       if (URL.match(/^\/delete(\/)?$/)) res.end('DELETE - Delete');

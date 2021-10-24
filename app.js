@@ -38,25 +38,28 @@ const sessionHandler = session({
 
 const flashHandler = flash();
 // TODO: Handle req.flashes and local.flashes
-const app = http.createServer((req, res) => {
+const app = http.createServer(middlewares);
+
+function middlewares(req, res) {
+  const startTime = process.hrtime(); // To calculate response time
   sessionHandler(req, res, () => {
     req.cookies = cookieParser(req);
-    flashHandler(req, res, () => server(req, res));
-  });
-});
+    res.locals = {};
+    res.render = render(req, res);
+    res.on('error', (err) => globalErrorHandler(err, req, res));
 
-async function server(req, res) {
-  // Middlewares
-  const startTime = process.hrtime(); // To calculate response time
-  res.locals = {};
-  res.render = render(req, res);
-  res.on('error', (err) => globalErrorHandler(err, req, res));
-  if (ifRequestIsFile(req)) {
-    const errorMessage = `${req.headers.host}${req.url} does not exist!`;
-    serve(req, res, () =>
-      res.emit('error', new ErrorResponse(errorMessage, 404))
-    );
-  }
+    if (ifRequestIsFile(req)) {
+      const errorMessage = `${req.headers.host}${req.url} does not exist!`;
+      serve(req, res, () =>
+        res.emit('error', new ErrorResponse(errorMessage, 404))
+      );
+    }
+    flashHandler(req, res, () => server(req, res, startTime));
+  });
+}
+
+async function server(req, res, startTime) {
+  res.locals.flashes = req.flash();
 
   // Development logging
   if (process.env.NODE_ENV === 'development')

@@ -1,24 +1,14 @@
 const parse = require('co-body');
 const path = require('path');
 const Confession = require('../models/Confession');
+const paginateConfessions = require('../helpers/paginateConfessions');
 
 exports.getAllConfessions = async (req, res) => {
-  const totalConfessions = parseInt(await Confession.estimatedDocumentCount());
-  const perPage = 5;
-  const url = new URL(`https://${req.headers.host}${req.url}`);
-  let page = parseInt(url.searchParams.get('page')) || 1;
-  let skip = perPage * (page - 1);
-  // If page exceeds confession count then it's reset to 1
-  page = totalConfessions <= skip ? 1 : page;
-  skip = perPage * (page - 1);
-  const confessions = await Confession.find()
-    .sort('-createdAt')
-    .skip(skip)
-    .limit(perPage)
-    .exec();
-  const prevPage = page > 1 ? page - 1 : null;
-  const nextPage =
-    skip + confessions.length < totalConfessions ? page + 1 : null;
+  const { confessions, prevPage, nextPage } = await paginateConfessions(
+    req,
+    res,
+    false
+  );
 
   res.render('all-confessions', {
     confessions,

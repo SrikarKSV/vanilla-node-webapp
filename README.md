@@ -29,3 +29,8 @@ The goals of the project:
 - [ ] Moderator can mark and edit confessions but not delete
 - [ ] Admin can view the marked confessions and delete them
 - [x] Profile page for staff with titles they edited and marked
+
+### Remaining routes to implement
+
+- [ ] /mark
+- [ ] /delete

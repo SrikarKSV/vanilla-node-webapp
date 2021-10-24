@@ -1,4 +1,5 @@
 const adminController = require('../controllers/adminController');
+const { catchAsync } = require('../helpers/errorHandlers');
 const { requireAuth } = require('../helpers/authMiddlewares');
 const ErrorResponse = require('../lib/errorResponse');
 
@@ -10,21 +11,21 @@ function router(req, res) {
     case 'GET':
       if (URL.match(/^\/admin(\/)?$/))
         requireAuth(res, ['admin', 'mod'], () =>
-          adminController.admin(req, res)
+          catchAsync(adminController.admin, req, res)
         );
       else if (URL.match(/^\/profile\/\w+$/))
         requireAuth(res, ['admin', 'mod'], () =>
-          adminController.profile(req, res)
+          catchAsync(adminController.profile, req, res)
         );
       else if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
         requireAuth(res, ['admin', 'mod'], () =>
-          adminController.getEdit(req, res)
+          catchAsync(adminController.getEdit, req, res)
         );
       break;
     case 'POST':
       if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
         requireAuth(res, ['admin', 'mod'], () =>
-          adminController.edit(req, res)
+          catchAsync(adminController.edit, req, res)
         );
       break;
     case 'PATCH':

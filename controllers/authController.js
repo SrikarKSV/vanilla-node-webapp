@@ -51,6 +51,7 @@ exports.signup = async (req, res) => {
   }
 
   const user = await User.create({ username, password, role });
+  // TODO: Instead logging signed up user, admin will get a flash that user is created
   createSendToken(user, res);
 };
 
@@ -63,6 +64,7 @@ exports.logout = (req, res) => {
 };
 
 exports.getLogin = (req, res) => {
+  if (res.locals.user) return res.writeHead(302, { location: '/' }).end(); // TODO: Flash already logged in
   res.render('login');
 };
 

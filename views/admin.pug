@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="/css/main.css")
+    title Admin dashboard
+  body 
+    h1 Welcome #{user.username}
+    p Role: #[mark= user.role]
+
+    h2 Marked confessions 
+    if postsMarked.length
+      each post in postsMarked
+          li: a(href=post.slug)= post.title
+    else
+      p No posts marked 
+    
+    h2 All confessions

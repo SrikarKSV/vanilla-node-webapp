@@ -70,6 +70,39 @@ confessionSchema.statics.getTop5Confessions = function () {
   ]);
 };
 
+confessionSchema.statics.getPostsMarkedAsSpam = function () {
+  return this.aggregate([
+    {
+      $addFields: {
+        isMarkedAsSpam: {
+          $toBool: '$markedByStaff',
+        },
+      },
+    },
+    {
+      $match: {
+        isMarkedAsSpam: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'markedByStaff',
+        foreignField: '_id',
+        as: 'markedByStaff',
+      },
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'editedByStaff',
+        foreignField: '_id',
+        as: 'editedByStaff',
+      },
+    },
+  ]);
+};
+
 const confessionModel = mongoose.model('Confession', confessionSchema);
 
 module.exports = confessionModel;

@@ -2,6 +2,9 @@ const http = require('http');
 const path = require('path');
 const serveStatic = require('serve-static');
 const onFinished = require('on-finished');
+const flash = require('connect-flash');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const morgan = require('./lib/morgan');
 const { ifRequestIsFile, matchURL } = require('./lib/utils');
@@ -18,7 +21,29 @@ const adminRouter = require('./routes/adminRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
-const app = http.createServer(server);
+const DB =
+  process.env.NODE_ENV === 'development'
+    ? process.env.DATABASE_DEV
+    : process.env.DATABASE_PROD.replace(
+        '<PASSWORD>',
+        process.env.DATABASE_PASSWORD
+      );
+
+const sessionHandler = session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: DB }),
+});
+
+const flashHandler = flash();
+// TODO: Handle req.flashes and local.flashes
+const app = http.createServer((req, res) => {
+  sessionHandler(req, res, () => {
+    req.cookies = cookieParser(req);
+    flashHandler(req, res, () => server(req, res));
+  });
+});
 
 async function server(req, res) {
   // Middlewares
@@ -32,7 +57,6 @@ async function server(req, res) {
       res.emit('error', new ErrorResponse(errorMessage, 404))
     );
   }
-  req.cookies = cookieParser(req);
 
   // Development logging
   if (process.env.NODE_ENV === 'development')

@@ -21,7 +21,7 @@ The goals of the project:
 - [x] Learn to use headers to redirect users
 - [x] Landing page which will have 5 most popular confessions in last 24 hours (Usage of aggregations)
 - [x] Confession should be accompanied by title, date and beginning of confession
-- [ ] Use javascript to give flashes
+- [x] Use sessions to give flashes
 - [x] Confessions page with pagination
 - [ ] Try authentication for moderator to delete or edit the confession
 - [x] Make two user roles for staff - moderator and admin

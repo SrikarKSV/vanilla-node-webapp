@@ -5,6 +5,13 @@ exports.catchAsync = (fn, req, res) => {
 };
 
 function flashValidationErrors(err, req, res) {
+  // Handling unique error for username
+  if (err.code === 11000) {
+    err.errors = {
+      ...err.errors,
+      username: { message: 'Username already taken!' },
+    };
+  }
   if (!err.errors) return false;
   // validation errors look like
   const errorKeys = Object.keys(err.errors);

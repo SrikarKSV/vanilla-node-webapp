@@ -8,9 +8,10 @@ function createToken(id) {
   return jwt.sign({ id }, process.env.SECRET, { expiresIn: maxAge });
 }
 
-function createSendToken(user, res) {
+function createSendToken(req, res, user) {
   const token = createToken(user._id);
 
+  req.flash('success', 'User successfully logged in 👍!');
   res.writeHead(303, {
     location: `/`,
     'Set-Cookie': `jwt=${token}; Max-Age=${maxAge * 1000}; HttpOnly`,
@@ -22,49 +23,56 @@ exports.login = async (req, res) => {
   const { username, password } = await parse.form(req);
 
   if (!username || !password) {
-    // TODO: If possible use flash and redirect back
+    req.flash('error', 'Provide both username and password!');
     return res.writeHead(302, { location: `/login` }).end();
   }
 
   const user = await User.findOne({ username });
-
   if (!user) {
-    // TODO: FLash user doesn't exist
-    console.log('User does not exist');
+    req.flash('error', 'Username provided does not exist!');
     return res.writeHead(302, { location: `/login` }).end();
   }
+
   const auth = await bcrypt.compare(password, user.password);
   if (!auth) {
-    // TODO: FLash password incorrect
-    console.log('Password incorrect');
+    req.flash('error', 'Password provided is incorrect!');
     return res.writeHead(302, { location: `/login` }).end();
   }
 
-  createSendToken(user, res);
+  createSendToken(req, res, user);
 };
 
 exports.signup = async (req, res) => {
   const { username, password, role } = await parse.form(req);
 
-  if (!username || !password || !role) {
-    return res.writeHead(302, { location: `/login` }).end();
-  }
-
   const user = await User.create({ username, password, role });
-  // TODO: Instead logging signed up user, admin will get a flash that user is created
-  createSendToken(user, res);
+
+  req.flash(
+    'success',
+    `Successfully created user: ${user.username} with the role: ${user.role}`
+  );
+  res
+    .writeHead(303, {
+      location: `/`,
+    })
+    .end();
 };
 
 exports.logout = (req, res) => {
-  res.writeHead(302, {
-    location: `/`,
-    'Set-Cookie': `jwt=; Max-Age=1; HttpOnly`,
-  });
-  res.end();
+  req.flash('success', 'Successfully logged user out 👋!');
+  res
+    .writeHead(302, {
+      location: `/`,
+      'Set-Cookie': `jwt=; Max-Age=1; HttpOnly`,
+    })
+    .end();
 };
 
 exports.getLogin = (req, res) => {
-  if (res.locals.user) return res.writeHead(302, { location: '/' }).end(); // TODO: Flash already logged in
+  if (res.locals.user) {
+    req.flash('info', 'User already logged in');
+    return res.writeHead(302, { location: '/' }).end();
+  }
   res.render('login');
 };
 

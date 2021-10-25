@@ -54,18 +54,20 @@ function middlewares(req, res) {
         res.emit('error', new ErrorResponse(errorMessage, 404))
       );
     }
+
+    // Development logging
+    if (process.env.NODE_ENV === 'development')
+      onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
+
     flashHandler(req, res, () => server(req, res, startTime));
   });
 }
 
 async function server(req, res, startTime) {
-  res.locals.flashes = req.flash();
-
-  // Development logging
-  if (process.env.NODE_ENV === 'development')
-    onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
-
-  if (!ifRequestIsFile(req)) res.locals.user = await checkUser(req, res);
+  if (!ifRequestIsFile(req)) {
+    res.locals.flashes = req.flash();
+    res.locals.user = await checkUser(req, res);
+  }
 
   // Routes
   if (matchURL([/^\/$/, /^\/new(\/)?$/], req.url)) homeRouter(req, res);

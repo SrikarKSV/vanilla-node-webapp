@@ -4,6 +4,19 @@ exports.catchAsync = (fn, req, res) => {
   });
 };
 
+function flashValidationErrors(err, req, res) {
+  if (!err.errors) return false;
+  // validation errors look like
+  const errorKeys = Object.keys(err.errors);
+  errorKeys.forEach((key) => req.flash('error', err.errors[key].message));
+  res
+    .writeHead(303, {
+      location: req.headers.referer,
+    })
+    .end();
+  return true;
+}
+
 function sendErrorDev(err, req, res) {
   err.stack = err.stack || '';
   const errorDetails = {
@@ -30,6 +43,9 @@ function sendErrorProd(err, req, res) {
 
 exports.globalErrorHandler = (err, req, res) => {
   err.statusCode = err.statusCode || 500;
+  const isFlashValidationError = flashValidationErrors(err, req, res);
+  if (isFlashValidationError) return;
+
   if (process.env.NODE_ENV === 'development') sendErrorDev(err, req, res);
   else if (process.env.NODE_ENV === 'production') sendErrorProd(err, req, res);
 };

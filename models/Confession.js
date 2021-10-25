@@ -4,7 +4,7 @@ const slugify = require('slugify');
 const confessionSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: 'Title is required for a confession!',
+    required: [true, 'Title is required for a confession!'],
     trim: true,
     maxlength: 100,
   },

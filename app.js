@@ -37,7 +37,7 @@ const sessionHandler = session({
 });
 
 const flashHandler = flash();
-// TODO: Handle req.flashes and local.flashes
+
 const app = http.createServer(middlewares);
 
 function middlewares(req, res) {

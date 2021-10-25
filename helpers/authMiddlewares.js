@@ -1,11 +1,16 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-function requireAuth(res, roles, callback) {
+function requireAuth(req, res, roles, callback) {
   const user = res.locals?.user;
-  if (!user) return res.writeHead(302, { location: `/login` }).end(); // TODO: Flash that only staff can access
-  if (!roles.includes(user.role))
-    return res.writeHead(302, { location: `/` }).end(); // TODO: Flash your role can't perform this action
+  if (!user) {
+    req.flash('warn', 'Only staff have access for the action to be performed');
+    return res.writeHead(302, { location: `/login` }).end();
+  }
+  if (!roles.includes(user.role)) {
+    req.flash('error', 'User with your role cannot perform that action');
+    return res.writeHead(302, { location: `/` }).end();
+  }
 
   callback();
 }
@@ -20,7 +25,6 @@ function checkUser(req, res) {
       if (err) {
         return resolve(null);
       }
-      console.log(decodedToken);
       let user = await User.findById(decodedToken.id);
       return resolve(user);
     });

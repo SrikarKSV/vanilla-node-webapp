@@ -12,13 +12,15 @@ function router(req, res) {
       if (URL.match(/^\/login(\/)?$/)) authController.getLogin(req, res);
       else if (URL.match(/^\/logout(\/)?$/)) authController.logout(req, res);
       else if (URL.match(/^\/signup(\/)?$/))
-        requireAuth(res, ['admin'], () => authController.getSignup(req, res));
+        requireAuth(req, res, ['admin'], () =>
+          authController.getSignup(req, res)
+        );
       break;
     case 'POST':
       if (URL.match(/^\/login(\/)?$/))
         catchAsync(authController.login, req, res);
       else if (URL.match(/^\/signup(\/)?$/))
-        requireAuth(res, ['admin'], () =>
+        requireAuth(req, res, ['admin'], () =>
           catchAsync(authController.signup, req, res)
         );
       break;

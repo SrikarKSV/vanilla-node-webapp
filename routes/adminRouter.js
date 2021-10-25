@@ -10,21 +10,21 @@ function router(req, res) {
   switch (httpMethod) {
     case 'GET':
       if (URL.match(/^\/admin(\/)?$/))
-        requireAuth(res, ['admin', 'mod'], () =>
+        requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.admin, req, res)
         );
       else if (URL.match(/^\/profile\/\w+$/))
-        requireAuth(res, ['admin', 'mod'], () =>
+        requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.profile, req, res)
         );
       else if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
-        requireAuth(res, ['admin', 'mod'], () =>
+        requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.getEdit, req, res)
         );
       break;
     case 'POST':
       if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
-        requireAuth(res, ['admin', 'mod'], () =>
+        requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.edit, req, res)
         );
       break;

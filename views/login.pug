@@ -7,6 +7,14 @@ html(lang="en")
     link(rel="stylesheet", href="/css/main.css")
     title Login
   body 
+    header 
+      if flashes 
+      - const categories = Object.keys(flashes)
+      each category in categories
+        each message in flashes[category]
+          .flash(class=`flash--${category}`)
+            p= message
+            button.flash__remove(onClick="this.parentElement.remove()") &times;
     h1 Login 
     form(action="/login", method="post") 
       label(for="username") Username 

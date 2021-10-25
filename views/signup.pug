@@ -7,6 +7,14 @@ html(lang="en")
     link(rel="stylesheet", href="/css/main.css")
     title Signup
   body 
+    header 
+      if flashes 
+      - const categories = Object.keys(flashes)
+      each category in categories
+        each message in flashes[category]
+          .flash(class=`flash--${category}`)
+            p= message
+            button.flash__remove(onClick="this.parentElement.remove()") &times;
     h1 Signup 
     form(action="/signup", method="post") 
       label(for="username") Username 

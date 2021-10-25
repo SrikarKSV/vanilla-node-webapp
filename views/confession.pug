@@ -7,6 +7,13 @@ html(lang="en")
         link(rel="stylesheet", href="/css/main.css")
         title #{title} | Confessions
     body 
+        if flashes 
+            - const categories = Object.keys(flashes)
+            each category in categories
+                each message in flashes[category]
+                    .flash(class=`flash--${category}`)
+                    p= message
+                    button.flash__remove(onClick="this.parentElement.remove()") &times;
         h1= title
         p= `View count: ${viewCount}` 
         time= createdAt

@@ -7,6 +7,14 @@ html(lang="en")
         link(rel="stylesheet", href="/css/main.css")
         title New Confession
     body 
+        header 
+            if flashes 
+                - const categories = Object.keys(flashes)
+                each category in categories
+                    each message in flashes[category]
+                        .flash(class=`flash--${category}`)
+                        p= message
+                        button.flash__remove(onClick="this.parentElement.remove()") &times;
         h1 Edit the confession
         form(action=`/edit/${id}` method="POST")
             input(type="text" maxlength="100" name="title" value=title)

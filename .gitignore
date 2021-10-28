@@ -8,6 +8,8 @@
 
 # production
 /build
+.parcel-cache
+/public/dist
 
 # misc
 .DS_Store

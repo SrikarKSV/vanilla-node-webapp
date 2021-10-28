@@ -4,9 +4,18 @@
   "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
   "main": "server.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --ignore views  --ignore public",
     "start": "cross-env NODE_ENV=production node",
+    "watch": "cross-env NODE_ENV=development nodemon server.js --ignore public/",
+    "assets": "parcel watch ./public/js/index.js ./public/sass/main.scss ./public/sass/admin/admin.scss",
+    "build": "parcel build ./public/js/index.js ./public/sass/main.scss ./public/sass/admin/admin.scss",
+    "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "fillDemo": "cross-env NODE_ENV=development node setup/fillConfessions.js"
+  },
+  "targets": {
+    "main": false,
+    "default": {
+      "distDir": "public/dist"
+    }
   },
   "repository": {
     "type": "git",
@@ -26,8 +35,11 @@
   },
   "homepage": "https://github.com/SrikarKSV/vanilla-nodejs-blog#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0",
+    "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "parcel": "^2.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -44,5 +56,10 @@
     "pug": "^3.0.2",
     "serve-static": "^1.14.1",
     "slugify": "^1.6.1"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "not dead",
+    "last 2 versions"
+  ]
 }

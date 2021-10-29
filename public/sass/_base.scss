@@ -1,14 +1,24 @@
 :root {
   --black: rgb(0, 0, 0);
+  --white: rgb(255, 255, 255);
   --primary-bc: rgba(16, 13, 18, 1);
   --secondary-bc: rgba(69, 73, 84, 4);
   --accent-text: rgba(255, 255, 255, 0.75);
   --time-bc: rgba(97, 100, 107, 6);
+  --grey: rgba(46, 49, 56, 1);
   --purple: rgb(196, 153, 255);
   --yellow-bold: rgba(255, 178, 62, 1);
-  --yellow-light: rgba(255, 178, 62, 0.9);
+  --yellow: rgba(255, 178, 62, 0.9);
   --red: rgba(255, 10, 120, 1);
   --blue: rgba(74, 103, 247, 1);
+}
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -16,11 +26,11 @@ html {
 } /*16px*/
 
 body {
-  background: white;
+  background: rgba(16, 13, 18, 1);
   font-family: "Urbanist", sans-serif;
   font-weight: 400;
   line-height: 1.75;
-  color: #000000;
+  color: var(--white);
 }
 
 p {
@@ -41,6 +51,7 @@ h5 {
 h1 {
   margin-top: 0;
   font-size: 4.209rem;
+  font-weight: 700;
 }
 
 h2 {
@@ -62,4 +73,26 @@ h5 {
 small,
 .text_small {
   font-size: 0.75rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.accent {
+  color: var(--accent-text);
+}
+
+.btn {
+  padding: 0.45em 0.8em;
+  border-radius: 5px;
+  color: inherit;
+}
+
+$colors: red, purple, blue, grey, yellow;
+
+@each $color in $colors {
+  .btn-#{$color} {
+    background-color: var(--#{$color});
+  }
 }

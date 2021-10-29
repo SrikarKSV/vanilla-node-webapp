@@ -1,0 +1,42 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="stylesheet", href="/dist/sass/main.css")
+    link(rel="shortcut icon" href="/favicon.ico" type="image/x-icon")
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet")
+    title Home | Anonymous Confessions
+  
+  body
+    .container 
+      header 
+        h1: a(href="/") AConfessions 
+        nav 
+          ul 
+            li: a(href="/confessions").accent Read confessions
+            li: a(href="/new").btn.btn-red Write confession
+            if user
+              li: a(href="/admin").btn.btn-yellow Admin
+
+      
+      if locals.flashes 
+        - const categories = Object.keys(locals.flashes)
+        each category in categories
+          each message in flashes[category]
+            .flash(class=`flash--${category}`)
+              p= message
+              button.flash__remove(onClick="this.parentElement.remove()") &times;
+      
+      main 
+        block content
+      
+      footer
+        p.footer__logo AConfessions
+        p Made with ❤️ by Srikar, © 2021 - present
+
+    block scripts
+  

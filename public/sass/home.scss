@@ -1,0 +1,39 @@
+@use "utils.scss";
+
+.hero {
+  height: 100vh;
+  position: relative;
+  overflow: auto;
+
+  &__text,
+  &__arrow {
+    text-align: center;
+    @include utils.apply-flex(column, center, center);
+  }
+
+  &__text {
+    margin-top: 4rem;
+  }
+
+  &__yellow {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  &__arrow {
+    position: absolute;
+    bottom: 2rem;
+  }
+
+  .bc-wave {
+    position: absolute;
+    bottom: 0;
+    fill: var(--black);
+    z-index: -10;
+  }
+}
+
+.home-main {
+  overflow: auto;
+  background-color: var(--black);
+}

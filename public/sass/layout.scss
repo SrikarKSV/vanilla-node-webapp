@@ -1,0 +1,27 @@
+@use "utils.scss";
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+header {
+  margin-top: 1.5rem;
+
+  &,
+  ul {
+    @include utils.apply-flex(row, space-between, center);
+  }
+
+  h1 a {
+    color: var(--yellow-bold);
+    text-decoration: none;
+  }
+
+  li {
+    font-weight: 500;
+    list-style-type: none;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+  }
+}

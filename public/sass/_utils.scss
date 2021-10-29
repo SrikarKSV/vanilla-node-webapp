@@ -4,3 +4,8 @@
   justify-content: $justify-content;
   align-items: $align-item;
 }
+
+@mixin section-heading($text-align) {
+  color: var(--purple);
+  text-align: $text-align;
+}

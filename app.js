@@ -13,6 +13,7 @@ const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const { checkUser } = require('./helpers/authMiddlewares');
+const templateHelpers = require('./helpers/templateHelpers');
 
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
@@ -67,6 +68,7 @@ async function server(req, res, startTime) {
   if (!ifRequestIsFile(req)) {
     res.locals.flashes = req.flash();
     res.locals.user = await checkUser(req, res);
+    res.locals.h = templateHelpers;
   }
 
   // Routes

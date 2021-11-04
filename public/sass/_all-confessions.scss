@@ -1,0 +1,33 @@
+@use "utils.scss";
+
+.all-confessions {
+  h2 {
+    @include utils.section-heading(left);
+  }
+}
+
+.post {
+  @include utils.apply-flex(row, flex-start, center);
+
+  &__icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(50%, 50%);
+    }
+  }
+
+  &__confession {
+    margin-left: 2rem;
+
+    h4 {
+      margin-bottom: 1rem;
+    }
+  }
+}

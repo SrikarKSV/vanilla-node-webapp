@@ -29,6 +29,8 @@ The goals of the project:
 - [ ] Moderator can mark and edit confessions but not delete
 - [ ] Admin can view the marked confessions and delete them
 - [x] Profile page for staff with titles they edited and marked
+- [ ] Create own sessions and flash messages without packages
+- [ ] Use Intl.RelativeTimeFormat API to get relative time
 
 ### Remaining routes to implement
 

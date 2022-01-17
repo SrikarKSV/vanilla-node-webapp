@@ -91,6 +91,15 @@
     h3 {
       margin-top: 8rem;
     }
+
+    & > div {
+      width: 80%;
+      margin: auto;
+    }
+
+    .post {
+      border: 2px solid var(--black);
+    }
   }
 
   &__no-popular {

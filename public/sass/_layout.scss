@@ -29,4 +29,19 @@ header {
 footer {
   max-width: 1200px;
   margin: 2rem auto;
+
+  .footer__logo {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--yellow);
+    margin-bottom: 0;
+  }
+}
+
+.alternate-footer {
+  margin: 2rem auto 0;
+  padding: 2rem 0;
+  overflow: auto;
+  max-width: 100vw;
+  background-color: var(--footer-bc);
 }

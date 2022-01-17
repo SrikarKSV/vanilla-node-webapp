@@ -4,10 +4,34 @@
   h2 {
     @include utils.section-heading(left);
   }
+
+  .paginate-btn {
+    margin: 4rem 0;
+    text-align: center;
+
+    .btn {
+      padding: 0.55em 2em;
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+
+    .btn-prev {
+      margin-right: 1rem;
+    }
+  }
 }
 
 .post {
   @include utils.apply-flex(row, flex-start, center);
+  border-radius: 5px;
+  border: 2px solid var(--primary-bc);
+  padding-left: 1em;
+  transition: border 0.2s;
+
+  &:hover {
+    border: 2px solid var(--accent-text);
+    box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+  }
 
   &__icon {
     height: 50px;
@@ -27,7 +51,22 @@
     margin-left: 2rem;
 
     h4 {
-      margin-bottom: 1rem;
+      font-weight: 500;
+      margin: 2rem 0 0;
+
+      a {
+        color: var(--white);
+      }
     }
+  }
+
+  &__posted-at {
+    display: inline-block;
+    padding: 0.1em 0.6em;
+    font-size: 0.9rem;
+    border-radius: 3px;
+    margin: 0.3rem 0 0.6rem;
+    color: var(--accent-text-light);
+    background: var(--time-bc);
   }
 }

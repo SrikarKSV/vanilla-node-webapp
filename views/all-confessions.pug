@@ -8,5 +8,12 @@ block content
     if confessions 
       each confession in confessions 
         +post(confession)
+      
+      .paginate-btn
+        if prevPage
+          a.btn.btn-grey.btn-prev(href=`/confessions?page=${prevPage}`) Previous
+        
+        if nextPage
+          a.btn.btn-grey.btn-next(href=`/confessions?page=${nextPage}`) Next
     else 
       h3 No posts

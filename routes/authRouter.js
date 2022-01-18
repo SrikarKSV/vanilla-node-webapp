@@ -8,7 +8,7 @@ function router(req, res) {
   const httpMethod = req.method;
 
   switch (httpMethod) {
-    case 'GET':
+    case 'GET': {
       if (URL.match(/^\/login(\/)?$/)) authController.getLogin(req, res);
       else if (URL.match(/^\/logout(\/)?$/)) authController.logout(req, res);
       else if (URL.match(/^\/signup(\/)?$/))
@@ -16,7 +16,8 @@ function router(req, res) {
           authController.getSignup(req, res)
         );
       break;
-    case 'POST':
+    }
+    case 'POST': {
       if (URL.match(/^\/login(\/)?$/))
         catchAsync(authController.login, req, res);
       else if (URL.match(/^\/signup(\/)?$/))
@@ -24,10 +25,12 @@ function router(req, res) {
           catchAsync(authController.signup, req, res)
         );
       break;
-    default:
+    }
+    default: {
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;
       res.emit('error', new ErrorResponse(errorMessage, 405));
       break;
+    }
   }
 }
 

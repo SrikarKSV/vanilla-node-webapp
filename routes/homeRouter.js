@@ -7,15 +7,16 @@ function router(req, res) {
   const httpMethod = req.method;
 
   switch (httpMethod) {
-    case 'GET':
+    case 'GET': {
       if (URL === '/') catchAsync(homeController.home, req, res);
       else if (URL.match(/\/new(\/)?/)) homeController.newConfession(req, res);
-      // TODO: Add edit route if admin functionality is added
       break;
-    default:
+    }
+    default: {
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;
       res.emit('error', new ErrorResponse(errorMessage, 405));
       break;
+    }
   }
 }
 

@@ -8,7 +8,7 @@ function router(req, res) {
   const httpMethod = req.method;
 
   switch (httpMethod) {
-    case 'GET':
+    case 'GET': {
       if (URL.match(/^\/dashboard(\/)?$/))
         requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.dashboard, req, res)
@@ -22,21 +22,19 @@ function router(req, res) {
           catchAsync(adminController.getEdit, req, res)
         );
       break;
-    case 'POST':
+    }
+    case 'POST': {
       if (URL.match(/^\/edit\/[a-f\d]{24}$/i))
         requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(adminController.edit, req, res)
         );
       break;
-    case 'PATCH':
-      if (URL.match(/^\/mark(\/)?$/)) res.end('PATCH - Mark');
-      break;
-    case 'DELETE':
-      if (URL.match(/^\/delete(\/)?$/)) res.end('DELETE - Delete');
-    default:
+    }
+    default: {
       const errorMessage = `${httpMethod} is not ALLOWED on ${req.headers.host}${URL}`;
       res.emit('error', new ErrorResponse(errorMessage, 405));
       break;
+    }
   }
 }
 

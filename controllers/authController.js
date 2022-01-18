@@ -43,7 +43,16 @@ exports.login = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const { username, password, role } = await parse.form(req);
+  const { username, password, confirmPassword, role } = await parse.form(req);
+
+  if (password !== confirmPassword) {
+    req.flash('error', 'The password confirmation does not match!');
+    return res
+      .writeHead(303, {
+        location: `/signup`,
+      })
+      .end();
+  }
 
   const user = await User.create({ username, password, role });
 
@@ -73,9 +82,9 @@ exports.getLogin = (req, res) => {
     req.flash('info', 'User already logged in');
     return res.writeHead(302, { location: '/' }).end();
   }
-  res.render('login');
+  res.render('login', { title: 'Login' });
 };
 
 exports.getSignup = (req, res) => {
-  res.render('signup');
+  res.render('signup', { title: 'Sign Up' });
 };

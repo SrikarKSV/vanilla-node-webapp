@@ -1,0 +1,20 @@
+mixin form(title)
+  .auth-form
+    h2= title 
+    - const submissonLink = title === "Sign up" ? "/signup" : "/login"
+    form(action=submissonLink method="post") 
+      label(for="username") Username 
+      input#username(type="text" name="username")
+      label(for="password") Password 
+      input#password(type="password" name="password")
+      if title == "Sign up"
+        label(for="confirm-password") Confirm password 
+        input#confirm-password(type="password" name="confirmPassword")
+        p.choose-label Choose role
+        .auth-form__switch
+          input#mod(type='radio' name='role' value='mod' checked)
+          label(for='mod') Moderator
+          input#admin(type='radio' name='role' value='admin')
+          label(for='admin') Admin
+
+      input.btn.btn-blue(type="submit", value="Submit")

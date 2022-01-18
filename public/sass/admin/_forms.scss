@@ -1,0 +1,80 @@
+@use "../utils.scss";
+
+.auth-form {
+  max-width: 28rem;
+  margin: 4rem auto;
+  background-color: var(--secondary-bc);
+  padding: 2em 3em;
+  border-radius: 6px;
+
+  h2 {
+    @include utils.section-heading(center);
+    margin-top: 0;
+  }
+
+  label {
+    display: block;
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 0.3em 0.4em;
+    border-radius: 3px;
+    border: none;
+    font-family: inherit;
+  }
+
+  .choose-label {
+    margin: 1.5rem 0 0.2rem;
+    font-size: 1.3rem;
+  }
+
+  &__switch {
+    display: flex;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      border: 0;
+      visibility: hidden;
+      overflow: hidden;
+
+      &:checked + label {
+        background-color: var(--red);
+      }
+    }
+
+    label {
+      background-color: var(--primary-bc);
+      padding: 0.3em 0.5em;
+      transition: all 0.1s ease-in-out;
+      margin-top: 0;
+      font-size: 1.2rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:first-of-type {
+        border-radius: 4px 0 0 4px;
+      }
+
+      &:last-of-type {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+
+  input[type="submit"].btn {
+    border: none;
+    display: block;
+    margin: 1.5rem auto 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+}

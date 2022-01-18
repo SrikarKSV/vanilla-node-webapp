@@ -1,29 +1,9 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/css/main.css")
-    title Signup
-  body 
-    header 
-      if flashes 
-      - const categories = Object.keys(flashes)
-      each category in categories
-        each message in flashes[category]
-          .flash(class=`flash--${category}`)
-            p= message
-            button.flash__remove(onClick="this.parentElement.remove()") &times;
-    h1 Signup 
-    form(action="/signup", method="post") 
-      label(for="username") Username 
-      input#username(type="text" name="username")
-      label(for="password") Password 
-      input#password(type="password" name="password")
-      p Choose role
-      input#mod(type="radio" name="role" value="mod")
-      label(for="mod") Moderator
-      input#admin(type="radio" name="role" value="admin")
-      label(for="admin") Admin
-      input(type="submit", value="Signup")
+extends layout 
+
+include mixins/_form
+
+block head-tags 
+  link(rel="stylesheet", href="/dist/sass/admin/admin.css")
+
+block content
+  +form("Sign up")

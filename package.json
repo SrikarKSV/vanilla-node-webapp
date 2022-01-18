@@ -6,8 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node",
     "watch": "cross-env NODE_ENV=development nodemon server.js --ignore public/",
-    "assets": "parcel watch ./public/js/index.js ./public/sass/main.scss ./public/sass/admin/admin.scss",
-    "build": "parcel build ./public/js/index.js ./public/sass/main.scss ./public/sass/admin/admin.scss",
+    "assets": "parcel watch ./public/js/* ./public/sass/main.scss ./public/sass/admin/admin.scss",
+    "build": "parcel build ./public/js/* ./public/sass/main.scss ./public/sass/admin/admin.scss",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "fillDemo": "cross-env NODE_ENV=development node setup/fillConfessions.js",
     "lint": "eslint .",

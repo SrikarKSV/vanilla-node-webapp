@@ -9,6 +9,7 @@ exports.dashboard = async (req, res) => {
 
   res.render('dashboard', {
     postsMarked,
+    title: 'Dashboard',
   });
 };
 

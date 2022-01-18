@@ -1,0 +1,45 @@
+@use "../utils.scss";
+
+.dashboard {
+  &__greeting {
+    @include utils.section-heading(left);
+  }
+
+  &__table-container {
+    overflow-x: auto;
+
+    table,
+    a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    table {
+      width: 100%;
+      background-color: var(--secondary-bc);
+      border-radius: 3px;
+    }
+
+    thead {
+      tr {
+        background-color: var(--blue);
+      }
+
+      th {
+        text-align: left;
+      }
+    }
+
+    th,
+    td {
+      padding: 0.9em 0.8em;
+    }
+
+    .btn {
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      border: none;
+    }
+  }
+}

@@ -23,7 +23,7 @@ The goals of the project:
 - [x] Confession should be accompanied by title, date and beginning of confession
 - [x] Use sessions to give flashes
 - [x] Confessions page with pagination
-- [ ] Try authentication for moderator to delete or edit the confession
+- [x] Try authentication for moderator to delete or edit the confession
 - [x] Make two user roles for staff - moderator and admin
 - [x] Only admin can make new staff accounts
 - [ ] Moderator can mark and edit confessions but not delete

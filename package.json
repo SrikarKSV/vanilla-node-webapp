@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/SrikarKSV/vanilla-nodejs-blog#readme",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.0.0",
+    "@parcel/transformer-sass": "^2.2.1",
     "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.2.0",
@@ -48,7 +48,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.13",
-    "parcel": "^2.0.0",
+    "parcel": "^2.2.1",
     "prettier": "^2.5.1"
   },
   "dependencies": {

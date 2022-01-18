@@ -1,8 +1,8 @@
-exports.catchAsync = (fn, req, res) => {
-  return fn(req, res).catch((err) => {
+/* eslint-disable no-param-reassign */
+exports.catchAsync = (fn, req, res) =>
+  fn(req, res).catch((err) => {
     res.emit('error', err);
   });
-};
 
 function flashValidationErrors(err, req, res) {
   // Handling unique error for username

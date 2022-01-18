@@ -93,12 +93,7 @@ confessionSchema.statics.getPostsMarkedAsSpam = function () {
       },
     },
     {
-      $lookup: {
-        from: 'users',
-        localField: 'editedByStaff',
-        foreignField: '_id',
-        as: 'editedByStaff',
-      },
+      $unwind: '$markedByStaff',
     },
   ]);
 };

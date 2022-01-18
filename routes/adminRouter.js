@@ -9,9 +9,9 @@ function router(req, res) {
 
   switch (httpMethod) {
     case 'GET':
-      if (URL.match(/^\/admin(\/)?$/))
+      if (URL.match(/^\/dashboard(\/)?$/))
         requireAuth(req, res, ['admin', 'mod'], () =>
-          catchAsync(adminController.admin, req, res)
+          catchAsync(adminController.dashboard, req, res)
         );
       else if (URL.match(/^\/profile\/\w+$/))
         requireAuth(req, res, ['admin', 'mod'], () =>

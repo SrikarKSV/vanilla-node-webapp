@@ -4,10 +4,10 @@ const Confession = require('../models/Confession');
 const User = require('../models/User');
 const ErrorResponse = require('../lib/errorResponse');
 
-exports.admin = async (req, res) => {
+exports.dashboard = async (req, res) => {
   const postsMarked = await Confession.getPostsMarkedAsSpam();
 
-  res.render('admin', {
+  res.render('dashboard', {
     postsMarked,
   });
 };

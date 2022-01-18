@@ -91,7 +91,7 @@ async function server(req, res, startTime) {
   else if (
     matchURL(
       [
-        /^\/admin(\/)?$/,
+        /^\/dashboard(\/)?$/,
         /^\/profile\/\w+$/,
         /^\/edit\/[a-f\d]{24}$/i,
         /^\/mark(\/)?$/,

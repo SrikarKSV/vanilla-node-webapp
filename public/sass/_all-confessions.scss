@@ -26,11 +26,13 @@
   border-radius: 5px;
   border: 2px solid var(--primary-bc);
   padding-left: 1em;
-  transition: border 0.2s;
+  transition: all 0.3s;
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     border: 2px solid var(--accent-text);
     box-shadow: 0 0 30px rgb(0 0 0 / 30%);
+    background-color: var(--secondary-bc);
   }
 
   &__icon {
@@ -58,15 +60,5 @@
         color: var(--white);
       }
     }
-  }
-
-  &__posted-at {
-    display: inline-block;
-    padding: 0.1em 0.6em;
-    font-size: 0.9rem;
-    border-radius: 3px;
-    margin: 0.3rem 0 0.6rem;
-    color: var(--accent-text-light);
-    background: var(--time-bc);
   }
 }

@@ -2,10 +2,10 @@
   --black: rgb(0, 0, 0);
   --white: rgb(255, 255, 255);
   --primary-bc: rgba(16, 13, 18, 1);
-  --secondary-bc: rgba(69, 73, 84, 4);
+  --secondary-bc: rgba(69, 73, 84, 0.4);
   --accent-text: rgba(255, 255, 255, 0.75);
   --accent-text-light: rgba(255, 255, 255, 0.8);
-  --time-bc: rgba(97, 100, 107, 6);
+  --time-bc: rgba(97, 100, 107, 0.6);
   --footer-bc: rgba(40, 43, 51, 0.3);
   --grey: rgba(46, 49, 56, 1);
   --purple: rgb(196, 153, 255);
@@ -94,7 +94,17 @@ a {
 $colors: red, purple, blue, grey, yellow;
 
 @each $color in $colors {
-  .btn-#{$color} {
+  .btn-#{"" + $color} {
     background-color: var(--#{$color});
   }
+}
+
+.posted-at {
+  display: inline-block;
+  padding: 0.1em 0.6em;
+  font-size: 0.9rem;
+  border-radius: 3px;
+  margin: 0.3rem 0 0.6rem;
+  color: var(--accent-text-light);
+  background: var(--time-bc);
 }

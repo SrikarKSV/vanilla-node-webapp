@@ -8,5 +8,5 @@ mixin post(confession)
           path(d='m12 11c-1.277 0-2.4943 0.269-3.5938 0.75-2.8856 1.262-4.9781 3.997-5.3437 7.25 0 1.105 0.8329 2 1.9375 2h14c1.105 0 1.938-0.895 1.938-2-0.366-3.253-2.459-5.988-5.344-7.25-1.1-0.481-2.317-0.75-3.594-0.75z' fill='#fff' transform='translate(0 1028.4)')
     div.post__confession
       h4: a(href=`/confessions/${confession.slug}`)= confession.title
-      span.post__posted-at Posted #[time(datetime=confession.createdAt) #{h.relativeTime(confession.createdAt)}]
+      span.posted-at Posted #[time(datetime=confession.createdAt) #{h.relativeTime(confession.createdAt)}]
       p.accent= confession.confession.length < 150 ? confession.confession : confession.confession.substring(0, 150) + "..."

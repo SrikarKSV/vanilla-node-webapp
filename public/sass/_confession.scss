@@ -1,0 +1,46 @@
+@use "utils.scss";
+
+.confession {
+  &__heading {
+    @include utils.apply-flex(row, flex-start, center);
+  }
+
+  &__icon {
+    height: 80px;
+    min-width: 80px;
+    border-radius: 50%;
+    position: relative;
+    margin-top: 30px;
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(1.9) translate(60%, 60%);
+    }
+  }
+
+  &__title {
+    margin-left: 2rem;
+
+    h2 {
+      margin-bottom: 0.4rem;
+    }
+
+    .posted-at {
+      font-size: 1rem;
+    }
+  }
+
+  &__body {
+    background-color: var(--secondary-bc);
+    padding: 2em;
+    margin: 2rem 0;
+    border-radius: 5px;
+
+    p {
+      white-space: pre-wrap;
+      margin-bottom: 0;
+    }
+  }
+}

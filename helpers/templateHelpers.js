@@ -1,5 +1,3 @@
-const { formatDistanceToNow } = require('date-fns');
-
 exports.dump = (obj) => JSON.stringify(obj, null, 2);
 
 exports.isDark = (bgColor) => {
@@ -10,8 +8,24 @@ exports.isDark = (bgColor) => {
   return r * 0.299 + g * 0.587 + b * 0.114 > 186;
 };
 
-exports.relativeTime = (datetime) =>
-  formatDistanceToNow(new Date(datetime), {
-    addSuffix: true,
-    includeSeconds: true,
-  });
+const units = {
+  year: 24 * 60 * 60 * 1000 * 365,
+  month: (24 * 60 * 60 * 1000 * 365) / 12,
+  day: 24 * 60 * 60 * 1000,
+  hour: 60 * 60 * 1000,
+  minute: 60 * 1000,
+  second: 1000,
+};
+
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+
+exports.relativeTime = (d1) => {
+  const elapsed = d1 - new Date();
+
+  // "Math.abs" accounts for both "past" & "future" scenarios
+  const unit = Object.keys(units).find(
+    (u) => Math.abs(elapsed) > units[u] || u === 'second'
+  );
+
+  return rtf.format(Math.round(elapsed / units[unit]), unit);
+};

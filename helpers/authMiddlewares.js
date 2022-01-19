@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const ErrorResponse = require('../lib/errorResponse');
 const User = require('../models/User');
 
 function requireAuth(req, res, roles, callback) {
@@ -36,13 +37,15 @@ function checkUser(req, res) {
 
     if (!token) resolve(null);
 
-    jwt.verify(token, process.env.SECRET, async (err, decodedToken) => {
-      if (err) {
-        return resolve(null);
-      }
-      const user = await User.findById(decodedToken.id);
-      return resolve(user);
-    });
+    jwt
+      .verify(token, process.env.SECRET, async (err, decodedToken) => {
+        if (err) {
+          return resolve(null);
+        }
+        const user = await User.findById(decodedToken.id);
+        return resolve(user);
+      })
+      .catch((err) => res.emit('error', new ErrorResponse(err)));
   });
 }
 

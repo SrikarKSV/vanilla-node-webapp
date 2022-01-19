@@ -36,16 +36,34 @@ function sendErrorDev(err, req, res) {
     ),
   };
   res.statusCode = err.statusCode;
+
+  // Return json for fetch requests
+  if (req.headers.accept === 'application/json')
+    return res.json({
+      error: errorDetails.message,
+      status: errorDetails.status,
+    });
+
   res.render('error', errorDetails);
 }
 
 function sendErrorProd(err, req, res) {
   res.statusCode = err.statusCode;
-  res.render('error', {
+
+  const errorDetails = {
     message: err.message,
     status: err.statusCode,
     title: 'Something went wrong!',
-  });
+  };
+
+  // Return json for fetch requests
+  if (req.headers.accept === 'application/json')
+    return res.json({
+      error: errorDetails.message,
+      status: errorDetails.status,
+    });
+
+  res.render('error', errorDetails);
 }
 
 exports.globalErrorHandler = (err, req, res) => {

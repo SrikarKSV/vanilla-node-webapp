@@ -4,12 +4,27 @@ const User = require('../models/User');
 function requireAuth(req, res, roles, callback) {
   const user = res.locals?.user;
   if (!user) {
-    req.flash('warn', 'Only staff have access for the action to be performed');
+    const errorMsg = 'Only staff have access for the action to be performed';
+    // Return json for a fetch requests
+    if (req.headers.accept === 'application/json') {
+      res.statusCode = 401;
+      return res.json({ error: errorMsg, status: 401 });
+    }
+
+    req.flash('warn', errorMsg);
     return res.writeHead(302, { location: `/login` }).end();
   }
+
   if (!roles.includes(user.role)) {
-    req.flash('error', 'User with your role cannot perform that action');
-    return res.writeHead(302, { location: `/` }).end();
+    const errorMsg = 'User with your role cannot perform that action';
+    // Return json for a fetch requests
+    if (req.headers.accept === 'application/json') {
+      res.statusCode = 403;
+      return res.json({ error: errorMsg, status: 403 });
+    }
+
+    req.flash('error', errorMsg);
+    return res.writeHead(302, { location: '/dashboard' }).end();
   }
 
   callback();

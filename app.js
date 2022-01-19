@@ -7,7 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 const morgan = require('./lib/morgan');
-const { ifRequestIsFile, matchURL } = require('./lib/utils');
+const { ifRequestIsFile, matchURL, json } = require('./lib/utils');
 const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
@@ -19,6 +19,7 @@ const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
 const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
+const apiRouter = require('./routes/apiRouter');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
@@ -47,6 +48,7 @@ function middlewares(req, res) {
     req.cookies = cookieParser(req);
     res.locals = {};
     res.render = render(req, res);
+    res.json = json;
     res.on('error', (err) => globalErrorHandler(err, req, res));
 
     if (ifRequestIsFile(req)) {
@@ -92,15 +94,24 @@ async function server(req, res, startTime) {
     matchURL(
       [
         /^\/dashboard(\/)?$/,
-        /^\/profile\/\w+$/,
-        /^\/edit\/[a-f\d]{24}$/i,
-        /^\/mark(\/)?$/,
-        /^\/delete(\/)?$/,
+        /^\/profile\/\w+(\/)?$/,
+        /^\/edit\/[a-f\d]{24}(\/)?$/i,
       ],
       req.url
     )
   )
     adminRouter(req, res);
+  else if (
+    matchURL(
+      [
+        /^\/api\/confessions(\/)?$/,
+        /^\/api\/mark(\/)?$/,
+        /^\/api\/delete(\/)?$/,
+      ],
+      req.url
+    )
+  )
+    apiRouter(req, res);
   else if (!ifRequestIsFile(req)) {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));

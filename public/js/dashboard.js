@@ -4,6 +4,7 @@ const allConfessionContainer = document.querySelector(
 
 // Holds the current paginated confessions
 let allConfessions;
+let isLoading = true;
 
 const allConfessionTableTemplate = /* html */ `
   <div class="dashboard__table-container">
@@ -26,9 +27,12 @@ const allConfessionTableTemplate = /* html */ `
 const allConfessionTableFragment = document
   .createRange()
   .createContextualFragment(allConfessionTableTemplate);
-
+// Append the fragment into DOM
 allConfessionContainer.appendChild(allConfessionTableFragment);
+
 const allConfessionTable = allConfessionContainer.querySelector('table');
+const loadingAnimation =
+  allConfessionContainer.querySelector('.loading-animation');
 const prevPageBtn = allConfessionContainer.querySelector('.btn-prev');
 const nextPageBtn = allConfessionContainer.querySelector('.btn-next');
 
@@ -79,13 +83,41 @@ function updateAllConfessions() {
     .join('');
 
   tbody.innerHTML = html;
-  allConfessionTable.querySelector('tbody')?.remove();
-  allConfessionTable.insertAdjacentElement('beforeend', tbody);
+
+  // If tbody already exists then just replace with new one
+  const oldTbody = allConfessionTable.querySelector('tbody');
+  if (oldTbody) oldTbody.replaceWith(tbody);
+  else allConfessionTable.insertAdjacentElement('beforeend', tbody);
+}
+
+function toggleAnimation() {
+  // If loading animation is shown, then set its container height and width
+  // To match that of the table on screen, so to avoid content jump
+  if (loadingAnimation.classList.contains('hide')) {
+    const width = allConfessionTable.clientWidth;
+    const height = allConfessionTable.clientHeight;
+    loadingAnimation.style.height = `${height}px`;
+    loadingAnimation.style.width = `${width}px`;
+  }
+
+  const allConfessionTableContainer = allConfessionTable.closest(
+    '.dashboard__table-container'
+  );
+  if (isLoading) {
+    allConfessionTableContainer.classList.add('hide');
+    loadingAnimation.classList.remove('hide');
+  } else {
+    allConfessionTableContainer.classList.remove('hide');
+    loadingAnimation.classList.add('hide');
+  }
+  isLoading = !isLoading;
 }
 
 async function fetchNewPage(e) {
+  toggleAnimation();
   allConfessions = await fetchAllConfessions(e.target.dataset.page);
   allConfessionTable.dispatchEvent(new CustomEvent('update'));
+  toggleAnimation();
 }
 
 prevPageBtn.addEventListener('click', fetchNewPage);
@@ -94,6 +126,14 @@ allConfessionTable.addEventListener('update', updateAllConfessions);
 
 // Load all confessions when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async () => {
+  toggleAnimation();
   allConfessions = await fetchAllConfessions();
-  allConfessionTable.dispatchEvent(new CustomEvent('update'));
+
+  // If no confession found
+  if (!allConfessions?.confessions.length) {
+    allConfessionContainer.innerHTML = '<h4>No confessions found</h4>';
+  } else {
+    allConfessionTable.dispatchEvent(new CustomEvent('update'));
+  }
+  toggleAnimation();
 });

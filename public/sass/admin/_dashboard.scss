@@ -5,8 +5,45 @@
     @include utils.section-heading(left);
   }
 
+  .loading-animation {
+    @include utils.apply-flex(row, center, center);
+    margin: 4rem auto;
+
+    // When width & height is added with js, margin is removed
+    &[style] {
+      margin: 0 auto;
+    }
+  }
+
+  // Animation
+  .pulse {
+    width: 100px;
+    height: 100px;
+    background: var(--logo-color);
+    border-radius: 50%;
+    animation: pulse 2s linear infinite;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .btn {
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    border: none;
+    margin: 1rem 1.5rem 1rem 0;
+
+    &.btn-prev,
+    &.btn-next {
+      font-size: 1.2rem;
+    }
+  }
+
   &__table-container {
     overflow-x: auto;
+    font-size: 1.1rem;
 
     table,
     a {
@@ -18,28 +55,39 @@
       width: 100%;
       background-color: var(--secondary-bc);
       border-radius: 3px;
+      border: none;
     }
 
     thead {
       tr {
-        background-color: var(--blue);
+        background-color: var(--green);
       }
 
       th {
         text-align: left;
+        padding: 0.8em;
       }
     }
 
-    th,
     td {
-      padding: 0.9em 0.8em;
+      padding: 0.5em 0.8em;
     }
+  }
+}
 
-    .btn {
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 500;
-      border: none;
-    }
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--blue), 0 0 0 0 var(--blue);
+  }
+  40% {
+    box-shadow: 0 0 0 30px rgba(109, 131, 241, 0), 0 0 0 0 var(--blue);
+  }
+  80% {
+    box-shadow: 0 0 0 30px rgba(109, 131, 241, 0),
+      0 0 0 20px rgba(109, 131, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(109, 131, 241, 0),
+      0 0 0 20px rgba(109, 131, 241, 0);
   }
 }

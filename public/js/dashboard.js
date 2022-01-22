@@ -1,40 +1,17 @@
 const allConfessionContainer = document.querySelector(
   '.dashboard__all-confessions'
 );
-
-// Holds the current paginated confessions
-let allConfessions;
-let isLoading = true;
-
-const allConfessionTableTemplate = /* html */ `
-  <div class="dashboard__table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Marked by</th>
-          <th>Edit</th>
-          <th>Mark as spam</th>
-        </tr>
-      </thead>
-    </table>
-    <button class="btn btn-grey btn-prev">Previous</button>
-    <button class="btn btn-grey btn-next">Next</button>
-  </div>
-`;
-
-// Convert template to document fragment
-const allConfessionTableFragment = document
-  .createRange()
-  .createContextualFragment(allConfessionTableTemplate);
-// Append the fragment into DOM
-allConfessionContainer.appendChild(allConfessionTableFragment);
-
-const allConfessionTable = allConfessionContainer.querySelector('table');
+const allConfessionTable = allConfessionContainer.querySelector(
+  '.dashboard__table-container table'
+);
 const loadingAnimation =
   allConfessionContainer.querySelector('.loading-animation');
 const prevPageBtn = allConfessionContainer.querySelector('.btn-prev');
 const nextPageBtn = allConfessionContainer.querySelector('.btn-next');
+
+// Holds the current paginated confessions
+let allConfessions;
+let isLoading = true;
 
 async function fetchAllConfessions(page) {
   let url = '/api/confessions';
@@ -52,7 +29,7 @@ function setPageBtnVisibility(page, pageBtn) {
   // Resetting visibility
   pageBtn.classList.remove('hide');
 
-  // Setting visibility based on the existence of prev or next page
+  // Setting visibility based on the value of prev or next page
   if (page) {
     pageBtn.setAttribute('data-page', page);
   } else {

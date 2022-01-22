@@ -1,0 +1,8 @@
+mixin form(url, title, confession)
+  .confession-form 
+    form(action=url method="POST")
+      label(for="title") Title #[span.accent.small (Maximum 100 characters)]
+      input#title(type="text", name="title" maxlength="100" value=title required)
+      label(for="confession") Confession
+      textarea#confession(name="confession" required)= confession
+      button.btn.btn-red(type="submit" maxlength="14000") Submit

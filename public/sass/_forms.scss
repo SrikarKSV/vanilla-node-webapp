@@ -1,0 +1,44 @@
+.confession-form {
+  width: 100%;
+  background-color: var(--secondary-bc);
+  padding: 2em 3em;
+  border-radius: 6px;
+
+  .small {
+    font-size: 1.2rem;
+  }
+
+  label {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+
+    &[for="confession"] {
+      margin-top: 1rem;
+    }
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 0.3em 0.4em;
+    border-radius: 3px;
+    border: none;
+    font-family: inherit;
+  }
+
+  textarea {
+    height: 30rem;
+    resize: vertical;
+  }
+
+  .btn {
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.6rem;
+    font-weight: 500;
+  }
+}

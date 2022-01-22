@@ -5,6 +5,10 @@
     @include utils.section-heading(left);
   }
 
+  h4 {
+    margin: 0;
+  }
+
   .loading-animation {
     @include utils.apply-flex(row, center, center);
     margin: 4rem auto;

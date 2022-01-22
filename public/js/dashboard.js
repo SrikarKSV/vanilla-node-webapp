@@ -126,7 +126,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   // If no confession found
   if (!allConfessions?.confessions.length) {
-    allConfessionContainer.innerHTML = '<h4>No confessions found</h4>';
+    allConfessionContainer.innerHTML = '<h4>No confessions found !</h4>';
   } else {
     allConfessionTable.dispatchEvent(new CustomEvent('update'));
   }

@@ -60,8 +60,17 @@ async function handleUnMarkBtn(button) {
   showNotification(message, statusCode);
 
   if (statusCode === 200 || statusCode === 422) {
+    const parentTBody = button.closest('table tbody');
+
     const parentTr = button.closest('tr');
     parentTr.remove();
+
+    if (!parentTBody.children.length) {
+      const parentTable = parentTBody.closest('table');
+      const h4 = document.createElement('h4');
+      h4.textContent = 'No posts marked !';
+      parentTable.replaceWith(h4);
+    }
   }
 }
 

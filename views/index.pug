@@ -51,11 +51,11 @@ html
         section.home-main__popular
           h3 Popular confessions in last 24 hours:
           div
-            if top5Confessions 
+            if top5Confessions.length 
               each confession in top5Confessions 
                 +post(confession)
             else 
-              h4.home-main__no-popular No posts in last 24 hours
+              h4.home-main__no-popular No post in last 24 hours !
 
 
         section.home-main__about 

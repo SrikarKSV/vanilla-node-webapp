@@ -18,10 +18,20 @@ html
         h1: a(href="/") AConfessions 
         nav 
           ul 
-            li: a(href="/confessions").accent Read confessions
-            li: a(href="/new").btn.btn-red Write confession
             if user
-              li: a(href="/dashboard").btn.btn-yellow Dashboard
+              if req.url === "/dashboard"
+                li: a(href="/confessions").accent Read confessions
+                li: a(href="signup").btn.btn-red Add new user
+                li: a(href=`/profile/${locals.user.username}`).btn.btn-yellow Profile
+                li: a(href="/logout").btn.btn-grey Logout
+              else
+                li: a(href="/confessions").accent Read confessions
+                li: a(href="/new").btn.btn-red Write confession
+                li: a(href="/dashboard").btn.btn-yellow Dashboard
+            else
+              li: a(href="/confessions").accent Read confessions
+              li: a(href="/new").btn.btn-red Write confession
+              
 
       
       if locals.flashes 

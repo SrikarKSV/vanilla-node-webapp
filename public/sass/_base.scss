@@ -1,3 +1,5 @@
+@use "./utils.scss";
+
 :root {
   --black: rgb(0, 0, 0);
   --white: rgb(255, 255, 255);
@@ -109,4 +111,8 @@ $colors: red, purple, blue, grey, yellow;
   margin: 0.3rem 0 0.6rem;
   color: var(--accent-text-light);
   background: var(--time-bc);
+}
+
+.error {
+  @include utils.section-heading(left);
 }

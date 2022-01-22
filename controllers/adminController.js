@@ -33,11 +33,12 @@ exports.getEdit = async (req, res) => {
     return res.emit('error', new ErrorResponse(errorMessage, 404));
   }
 
-  const { title, confession } = confessionToBeEdited;
+  const { title, confession, color } = confessionToBeEdited;
   res.render('edit-confession', {
     id,
     title,
     confession,
+    color,
   });
 };
 

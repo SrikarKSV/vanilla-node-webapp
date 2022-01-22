@@ -20,8 +20,12 @@ exports.getAllConfessions = async (req, res) => {
 };
 
 exports.createConfession = async (req, res) => {
-  const { title, confession } = await parse.form(req);
-  const createdConfession = await Confession.create({ title, confession });
+  const { title, confession, color } = await parse.form(req);
+  const createdConfession = await Confession.create({
+    title,
+    confession,
+    color,
+  });
   res.writeHead(303, {
     location: `/confessions/${createdConfession.slug}`,
   });
@@ -38,6 +42,6 @@ exports.getConfession = async (req, res) => {
   }
   singleConfession.viewCount += 1;
   singleConfession.save();
-  const { title, confession, viewCount, createdAt } = singleConfession;
-  res.render('confession', { title, confession, viewCount, createdAt });
+  const { title, confession, color, viewCount, createdAt } = singleConfession;
+  res.render('confession', { title, confession, color, viewCount, createdAt });
 };

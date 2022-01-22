@@ -4,4 +4,7 @@ include mixins/_form
 
 block content
   h2 Write a confession
-  +form(`/edit/${id}`, title, confession)
+  +form(`/edit/${id}`, title, confession, color)
+
+block scripts
+  script(src="/dist/js/index.js" type="module") 

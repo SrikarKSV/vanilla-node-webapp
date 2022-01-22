@@ -5,7 +5,7 @@ include mixins/_post
 block content
   .all-confessions
     h2 All confessions
-    if confessions 
+    if confessions.length 
       each confession in confessions 
         +post(confession)
       

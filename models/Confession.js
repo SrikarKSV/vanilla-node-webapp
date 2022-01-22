@@ -11,8 +11,13 @@ const confessionSchema = new mongoose.Schema({
   confession: {
     type: String,
     required: [true, 'Confession is required!'],
+    maxlength: 14000,
   },
   slug: String,
+  color: {
+    type: String,
+    required: [true, 'Color is required!'],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

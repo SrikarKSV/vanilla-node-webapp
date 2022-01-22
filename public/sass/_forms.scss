@@ -1,3 +1,5 @@
+@use "./utils.scss";
+
 .confession-form {
   width: 100%;
   background-color: var(--secondary-bc);
@@ -14,7 +16,8 @@
     margin-bottom: 0.3rem;
     font-weight: 500;
 
-    &[for="confession"] {
+    &[for="confession"],
+    &[for="color"] {
       margin-top: 1rem;
     }
   }
@@ -29,16 +32,46 @@
     font-family: inherit;
   }
 
+  input[type="color"] {
+    display: block;
+  }
+
   textarea {
     height: 30rem;
     resize: vertical;
   }
 
   .btn {
-    font-size: 1.2rem;
     border: none;
     cursor: pointer;
-    margin-top: 0.6rem;
     font-weight: 500;
+
+    &-generate {
+      margin-bottom: 0.5rem;
+    }
+
+    &-submit {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__color-picker {
+    @include utils.apply-flex(row, flex-start, center);
+    gap: 1rem;
+
+    .icon {
+      height: 50px;
+      min-width: 50px;
+      border-radius: 50%;
+      position: relative;
+      margin: 0.3rem 0;
+
+      svg {
+        position: absolute;
+        inset: 0 0 0 0;
+        transform: translate(50%, 50%);
+      }
+    }
   }
 }

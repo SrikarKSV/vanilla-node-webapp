@@ -1,8 +1,5 @@
 import { handleDashboardBtns } from './handleDashboardBtns.js';
 
-const tables = document.querySelectorAll('table');
-tables.forEach((table) => table.addEventListener('click', handleDashboardBtns));
-
 const allConfessionContainer = document.querySelector(
   '.dashboard__all-confessions'
 );
@@ -13,10 +10,22 @@ const loadingAnimation =
   allConfessionContainer.querySelector('.loading-animation');
 const prevPageBtn = allConfessionContainer.querySelector('.btn-prev');
 const nextPageBtn = allConfessionContainer.querySelector('.btn-next');
+const tables = document.querySelectorAll('table');
 
 // Holds the current paginated confessions
 let allConfessions;
 let isLoading = true;
+
+export function updateAllConfessionState(confessions) {
+  allConfessions = { ...allConfessions, confessions };
+  allConfessionTable.dispatchEvent(new CustomEvent('update'));
+}
+
+tables.forEach((table) =>
+  table.addEventListener('click', (e) =>
+    handleDashboardBtns(e, updateAllConfessionState, allConfessions)
+  )
+);
 
 async function fetchAllConfessions(page) {
   let url = '/api/confessions';
@@ -51,15 +60,19 @@ function updateAllConfessions() {
 
   const html = confessions
     .map(
-      ({ title, markedByStaff, slug, id }) => /* html */ `<tr>
+      ({ title, markedByStaff, slug, id }) => /* html */ `<tr class="${
+        markedByStaff ? 'marked' : ''
+      }">
       <td><a href="/confessions/${slug}">${title}</a></td>
       <td>${
         markedByStaff
           ? `<a href="/profile/${markedByStaff}">${markedByStaff}</a>`
           : 'None'
       }</td>
-      <td><a class="btn btn-yellow" href="/edit/${id}">Edit </a></td>
-      <td><button class="btn btn-purple btn-mark" data-id="${id}">Mark</button></td>
+      <td><a class="btn btn-yellow btn-edit" href="/edit/${id}">Edit</a></td>
+      <td><button class="btn btn-purple btn-mark" data-id="${id}" ${
+        markedByStaff ? 'disabled' : ''
+      }>Mark</button></td>
       </tr>`
     )
     .join('');

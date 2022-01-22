@@ -25,7 +25,7 @@ block content
                 tr
                   td: a(href=`/confessions/${post.slug}`)= post.title
                   td: a(href=`/profile/${post.markedByStaff.username}`)= post.markedByStaff.username
-                  td: a.btn.btn-yellow(href=`/edit/${post._id}`) Edit 
+                  td: a.btn.btn-yellow.btn-edit(href=`/edit/${post._id}`) Edit 
                   td: button.btn.btn-blue.btn-unmark(data-id=post._id) Unmark
                   td: button.btn.btn-red.btn-delete(data-id=post._id) Delete
     else
@@ -45,6 +45,9 @@ block content
               th Mark as spam
         button.btn.btn-grey.btn-prev Previous
         button.btn.btn-grey.btn-next Next
+
+    aside.dashboard__notification 
+      p Confession was unmarked!
 
 
 

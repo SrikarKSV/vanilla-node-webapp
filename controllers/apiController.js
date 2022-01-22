@@ -25,31 +25,39 @@ exports.getAllConfessionsJSON = async (req, res) => {
 exports.markConfession = async (req, res) => {
   const { id } = await parse.json(req);
   const confession = await Confession.findById(id).populate('markedByStaff');
-  if (!confession.markedByStaff) {
-    confession.markedByStaff = res.locals.user._id;
-    confession.save();
-    res.json({ status: 200, msg: 'Confession marked successfully!' });
-  } else {
+
+  // If already marked
+  if (confession.markedByStaff) {
     res.statusCode = 422;
-    res.json({
+    return res.json({
       status: 422,
       msg: 'Confession already marked!',
       markedByStaff: confession.markedByStaff.username,
     });
   }
+
+  confession.markedByStaff = res.locals.user._id;
+  confession.save();
+  res.json({
+    status: 200,
+    msg: 'Confession marked successfully!',
+    markedByStaff: res.locals.user.username,
+  });
 };
 
 exports.unMarkConfession = async (req, res) => {
   const { id } = await parse.json(req);
   const confession = await Confession.findById(id).populate('markedByStaff');
+
+  // If somebody already unmarked it
   if (!confession.markedByStaff) {
     res.statusCode = 422;
-    res.json({ status: 422, msg: 'Confession is not marked!' });
-  } else {
-    confession.markedByStaff = null;
-    confession.save();
-    res.json({ status: 200, msg: 'Confession is was unmarked!' });
+    return res.json({ status: 422, msg: 'Confession was not marked!' });
   }
+
+  confession.markedByStaff = null;
+  confession.save();
+  res.json({ status: 200, msg: 'Confession was unmarked!' });
 };
 
 exports.deleteConfession = async (req, res) => {

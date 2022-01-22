@@ -1,3 +1,8 @@
+import { handleDashboardBtns } from './handleDashboardBtns.js';
+
+const tables = document.querySelectorAll('table');
+tables.forEach((table) => table.addEventListener('click', handleDashboardBtns));
+
 const allConfessionContainer = document.querySelector(
   '.dashboard__all-confessions'
 );
@@ -54,7 +59,7 @@ function updateAllConfessions() {
           : 'None'
       }</td>
       <td><a class="btn btn-yellow" href="/edit/${id}">Edit </a></td>
-      <td><button class="btn btn-purple" data-id="${id}">Mark</button></td>
+      <td><button class="btn btn-purple btn-mark" data-id="${id}">Mark</button></td>
       </tr>`
     )
     .join('');

@@ -20,6 +20,10 @@ function router(req, res) {
         requireAuth(req, res, ['admin', 'mod'], () =>
           catchAsync(apiController.markConfession, req, res)
         );
+      else if (URL.match(/^\/api\/unmark(\/)?$/))
+        requireAuth(req, res, ['admin'], () =>
+          catchAsync(apiController.unMarkConfession, req, res)
+        );
       break;
     }
     case 'DELETE': {

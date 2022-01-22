@@ -17,6 +17,7 @@ block content
                 th Title
                 th Marked by
                 th Edit
+                th Unmark
                 th Delete
 
             tbody
@@ -25,6 +26,7 @@ block content
                   td: a(href=`/confessions/${post.slug}`)= post.title
                   td: a(href=`/profile/${post.markedByStaff.username}`)= post.markedByStaff.username
                   td: a.btn.btn-yellow(href=`/edit/${post._id}`) Edit 
+                  td: button.btn.btn-blue.btn-unmark(data-id=post._id) Unmark
                   td: button.btn.btn-red.btn-delete(data-id=post._id) Delete
     else
       p No posts marked 

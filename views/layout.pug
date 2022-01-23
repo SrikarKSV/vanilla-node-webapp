@@ -22,7 +22,8 @@ html
               if user
                 if req.url === "/dashboard"
                   li: a(href="/confessions").accent Read confessions
-                  li: a(href="signup").btn.btn-red Add new user
+                  if user.role === "admin"
+                    li: a(href="signup").btn.btn-red Add new user
                   li: a(href=`/profile/${locals.user.username}`).btn.btn-yellow Profile
                   li: a(href="/logout").btn.btn-grey Logout
                 else
@@ -51,4 +52,5 @@ html
         p.footer__logo AConfessions
         p Made with ❤️ by Srikar, © 2021 - present
 
-    block scripts
+  script(src="/dist/js/index.js")
+  block scripts

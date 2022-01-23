@@ -105,7 +105,9 @@ async function server(req, res, startTime) {
     matchURL(
       [
         /^\/api\/confessions(\/)?$/,
+        /^\/api\/confessions\?/,
         /^\/api\/mark(\/)?$/,
+        /^\/api\/unmark(\/)?$/,
         /^\/api\/delete(\/)?$/,
       ],
       req.url

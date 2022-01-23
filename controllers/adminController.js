@@ -5,7 +5,9 @@ const User = require('../models/User');
 const ErrorResponse = require('../lib/errorResponse');
 
 exports.dashboard = async (req, res) => {
-  const postsMarked = await Confession.getPostsMarkedAsSpam();
+  let postsMarked = null;
+  if (res.locals.user.role === 'admin')
+    postsMarked = await Confession.getPostsMarkedAsSpam();
 
   res.render('dashboard', {
     postsMarked,

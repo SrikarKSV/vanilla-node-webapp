@@ -12,38 +12,39 @@ html
     link(href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet")
     title #{title} | Anonymous Confessions
   
-  body
-    .container 
-      header 
-        h1: a(href="/") AConfessions 
-        nav 
-          ul 
-            if user
-              if req.url === "/dashboard"
-                li: a(href="/confessions").accent Read confessions
-                li: a(href="signup").btn.btn-red Add new user
-                li: a(href=`/profile/${locals.user.username}`).btn.btn-yellow Profile
-                li: a(href="/logout").btn.btn-grey Logout
+  body.layout-body
+    div
+      .container 
+        header 
+          h1: a(href="/") AConfessions 
+          nav 
+            ul 
+              if user
+                if req.url === "/dashboard"
+                  li: a(href="/confessions").accent Read confessions
+                  li: a(href="signup").btn.btn-red Add new user
+                  li: a(href=`/profile/${locals.user.username}`).btn.btn-yellow Profile
+                  li: a(href="/logout").btn.btn-grey Logout
+                else
+                  li: a(href="/confessions").accent Read confessions
+                  li: a(href="/new").btn.btn-red Write confession
+                  li: a(href="/dashboard").btn.btn-yellow Dashboard
               else
                 li: a(href="/confessions").accent Read confessions
                 li: a(href="/new").btn.btn-red Write confession
-                li: a(href="/dashboard").btn.btn-yellow Dashboard
-            else
-              li: a(href="/confessions").accent Read confessions
-              li: a(href="/new").btn.btn-red Write confession
-              
+                
 
-      
-      if locals.flashes 
-        - const categories = Object.keys(locals.flashes)
-        each category in categories
-          each message in flashes[category]
-            .flash(class=`flash--${category}`)
-              span= message
-              button.flash__remove(onClick="this.parentElement.remove()") &times;
-      
-      main 
-        block content
+        
+        if locals.flashes 
+          - const categories = Object.keys(locals.flashes)
+          each category in categories
+            each message in flashes[category]
+              .flash(class=`flash--${category}`)
+                span= message
+                button.flash__remove(onClick="this.parentElement.remove()") &times;
+        
+        main 
+          block content
       
     footer.alternate-footer
       .container
@@ -51,4 +52,3 @@ html
         p Made with ❤️ by Srikar, © 2021 - present
 
     block scripts
-  

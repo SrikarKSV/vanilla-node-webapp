@@ -20,8 +20,14 @@ html
       .container
         header.hero__header
           h1: a(href="/") AConfessions 
-          nav 
-            ul 
+          nav
+            button.hamburger 
+              svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16')
+            button.close
+              svg.h-6.w-6(xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12')
+            ul
               li: a(href="/confessions").accent Read confessions
               li: a(href="/new").btn.btn-red Write confession
               if user
@@ -65,7 +71,8 @@ html
           p I learnt a lot when researching for this project as I had to soar through the source code of many popular packages and gave me a better understanding the tools I use everyday. I hope you give it a chance and try the different features I implemented to build this project, Thank you!
 
     footer
-      p.footer__logo AConfessions
-      p Made with ❤️ by Srikar, © 2021 - present
+      .container
+        p.footer__logo AConfessions
+        p Made with ❤️ by Srikar, © 2021 - present
 
     script(src="/dist/js/index.js")

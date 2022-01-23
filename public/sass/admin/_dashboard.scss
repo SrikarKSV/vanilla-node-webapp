@@ -1,10 +1,6 @@
 @use "../utils.scss";
 
 .dashboard {
-  &__greeting {
-    @include utils.section-heading(left);
-  }
-
   h4 {
     margin: 0;
   }
@@ -141,5 +137,22 @@
   100% {
     box-shadow: 0 0 0 0 rgba(109, 131, 241, 0),
       0 0 0 20px rgba(109, 131, 241, 0);
+  }
+}
+
+@media only screen and (max-width: 26.25em) {
+  /* 420px */
+  .dashboard {
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    &__table-container {
+      font-size: 1rem;
+    }
   }
 }

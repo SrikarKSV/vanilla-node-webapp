@@ -82,6 +82,7 @@ footer {
       margin-bottom: 0;
     }
 
+    // Hamburger navbar
     nav {
       position: relative;
 
@@ -134,5 +135,37 @@ footer {
         }
       }
     }
+  }
+}
+
+@media only screen and (max-width: 40.625em) {
+  /* 650px */
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  header {
+    h1 {
+      font-size: 3rem;
+    }
+
+    .hamburger,
+    .close {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+@media only screen and (max-width: 26.25em) {
+  /* 420px */
+  header {
+    h1 {
+      font-size: 2.2rem;
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
   }
 }

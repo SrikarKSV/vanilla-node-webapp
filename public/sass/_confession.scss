@@ -10,7 +10,7 @@
     min-width: 80px;
     border-radius: 50%;
     position: relative;
-    margin-top: 30px;
+    margin-top: 3rem;
 
     svg {
       position: absolute;
@@ -25,6 +25,7 @@
 
     h2 {
       margin-bottom: 0.4rem;
+      font-size: 2.5rem;
     }
 
     .posted-at {
@@ -43,6 +44,56 @@
     p {
       white-space: pre-wrap;
       margin-bottom: 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 50em) {
+  /* 800px */
+  .confession {
+    &__heading {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 2rem;
+    }
+
+    &__icon {
+      height: 60px;
+      min-width: 60px;
+
+      svg {
+        transform: translate(75%, 70%);
+      }
+    }
+
+    &__title {
+      margin-left: 0;
+
+      h2 {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 40.625em) {
+  /* 650px */
+  .confession {
+    &__heading {
+      margin-left: 0;
+    }
+
+    &__title {
+      h2 {
+        font-size: 2rem;
+      }
+    }
+
+    &__body {
+      margin: 1rem 0 0;
+      padding: 1.1em;
+      width: 100%;
+      font-size: 1rem;
     }
   }
 }

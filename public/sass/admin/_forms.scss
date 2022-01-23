@@ -8,7 +8,6 @@
   border-radius: 6px;
 
   h2 {
-    @include utils.section-heading(center);
     margin-top: 0;
   }
 
@@ -76,5 +75,26 @@
     margin: 1.5rem auto 0;
     font-size: 1.2rem;
     cursor: pointer;
+  }
+}
+@media only screen and (max-width: 26.25em) {
+  /* 420px */
+  .auth-form {
+    padding: 1.5em;
+
+    label {
+      font-size: 1.2rem;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      font-size: 1.4rem;
+    }
+
+    &__switch {
+      label {
+        font-size: 1.1rem;
+      }
+    }
   }
 }

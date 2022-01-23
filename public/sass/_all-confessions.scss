@@ -1,10 +1,6 @@
 @use "utils.scss";
 
 .all-confessions {
-  h2 {
-    @include utils.section-heading(left);
-  }
-
   .paginate-btn {
     margin: 4rem 0;
     text-align: center;
@@ -59,6 +55,36 @@
       a {
         color: var(--white);
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 50em) {
+  /* 800px */
+  .post {
+    padding: 1.5em 1em;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &__confession {
+      margin-left: 0;
+
+      h4 {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 26.25em) {
+  /* 420px */
+  .post {
+    h4 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 0.8rem;
     }
   }
 }

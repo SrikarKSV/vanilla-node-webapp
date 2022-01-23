@@ -3,7 +3,7 @@
 .hero {
   height: 100vh;
   position: relative;
-  overflow: auto;
+  overflow: hidden;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='72' viewBox='0 0 36 72'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23252525' fill-opacity='0.32'%3E%3Cpath d='M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   z-index: 10;
 
@@ -77,10 +77,6 @@
   overflow: auto;
   background-color: var(--black);
 
-  h3 {
-    @include utils.section-heading(center);
-  }
-
   &__popular,
   &__about {
     max-width: 70%;
@@ -108,5 +104,79 @@
 
   &__about {
     margin-bottom: 4rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media only screen and (max-width: 80em) {
+  /* 1280px */
+  .hero {
+    h2 {
+      font-size: 2.9rem;
+    }
+
+    &__btn {
+      font-size: 1.1rem;
+    }
+  }
+
+  .home-main {
+    &__popular,
+    &__about {
+      max-width: 90%;
+    }
+
+    &__popular {
+      & > div {
+        width: 90%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 50em) {
+  /* 800px */
+  .hero__text {
+    margin-top: 3rem;
+  }
+
+  .home-main {
+    h3 {
+      font-size: 1.8rem;
+    }
+
+    &__popular,
+    &__about {
+      max-width: 100%;
+    }
+
+    &__popular {
+      & > div {
+        width: 100%;
+      }
+    }
+
+    &__about {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 40.625em) {
+  /* 650px */
+  .hero {
+    h2 {
+      font-size: 2.2rem;
+    }
+
+    &__tagline {
+      font-size: 1.2rem;
+    }
+  }
+
+  .home-main__about {
+    p {
+      font-size: 0.9rem;
+    }
   }
 }

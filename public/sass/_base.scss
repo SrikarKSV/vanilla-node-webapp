@@ -103,12 +103,20 @@ $colors: red, purple, blue, grey, yellow;
   }
 }
 
+.heading-left {
+  @include utils.section-heading(left);
+}
+
+.heading-center {
+  @include utils.section-heading(center);
+}
+
 .posted-at {
   display: inline-block;
   padding: 0.1em 0.6em;
   font-size: 0.9rem;
   border-radius: 3px;
-  margin: 0.3rem 0 0.6rem;
+  margin: 0.6rem 0;
   color: var(--accent-text-light);
   background: var(--time-bc);
 }

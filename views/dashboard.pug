@@ -5,7 +5,7 @@ block head-tags
 
 block content
   .dashboard
-    h2.dashboard__greeting Welcome #{user.username} 👋
+    h2.heading-left.dashboard__greeting Welcome #{user.username} 👋
 
     if locals.user.role === "admin"
       h3 Marked confessions 

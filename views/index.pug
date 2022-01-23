@@ -55,7 +55,7 @@ html
     main.home-main
       .container
         section.home-main__popular
-          h3 Popular confessions in last 24 hours:
+          h3.heading-center Popular confessions in last 24 hours:
           div
             if top5Confessions.length 
               each confession in top5Confessions 
@@ -65,7 +65,7 @@ html
 
 
         section.home-main__about 
-          h3 About this project 
+          h3.heading-center About this project 
           p This project is made by me, Srikar KSV, using vanilla NodeJS for web server and some packages to support it. I started this project with the aim to make a simple CRUD website without using express and using the underlying http module with some other packages.
           p But as I started working on it, it’s scope increased and now I’ve implemented some new features like, storing in DB, authentication for admin and mods with JWT, role based authorization, flash using sessions, sophisticated routing, proper error handling and much more.
           p I learnt a lot when researching for this project as I had to soar through the source code of many popular packages and gave me a better understanding the tools I use everyday. I hope you give it a chance and try the different features I implemented to build this project, Thank you!

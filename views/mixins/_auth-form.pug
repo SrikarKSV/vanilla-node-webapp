@@ -1,6 +1,6 @@
 mixin form(title)
   .auth-form
-    h2= title 
+    h2.heading-center= title 
     - const submissonLink = title === "Sign up" ? "/signup" : "/login"
     form(action=submissonLink method="post") 
       label(for="username") Username 

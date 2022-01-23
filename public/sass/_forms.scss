@@ -75,3 +75,36 @@
     }
   }
 }
+
+@media only screen and (max-width: 40.625em) {
+  /* 650px */
+  .confession-form {
+    padding: 1.5em 1.3em;
+
+    textarea {
+      height: 15rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 26.25em) {
+  /* 420px */
+  .confession-form {
+    label {
+      font-size: 1.3rem;
+    }
+
+    .small {
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    textarea {
+      font-size: 1.1rem;
+    }
+
+    .btn-submit {
+      font-size: 1rem;
+    }
+  }
+}

@@ -4,12 +4,12 @@ mixin form(title)
     - const submissonLink = title === "Sign up" ? "/signup" : "/login"
     form(action=submissonLink method="post") 
       label(for="username") Username 
-      input#username(type="text" name="username")
+      input#username(type="text" name="username" required)
       label(for="password") Password 
-      input#password(type="password" name="password")
+      input#password(type="password" name="password" required)
       if title == "Sign up"
         label(for="confirm-password") Confirm password 
-        input#confirm-password(type="password" name="confirmPassword")
+        input#confirm-password(type="password" name="confirmPassword" required)
         p.choose-label Choose role
         .auth-form__switch
           input#mod(type='radio' name='role' value='mod' checked)

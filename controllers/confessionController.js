@@ -34,7 +34,14 @@ exports.createConfession = async (req, res) => {
 
 exports.getConfession = async (req, res) => {
   const slug = path.parse(req.url).base;
-  const singleConfession = await Confession.findOne({ slug });
+  let singleConfession = Confession.findOne({ slug });
+
+  // If staff is viewing then load last edited staff info
+  if (res.locals.user) {
+    singleConfession.populate('editedByStaff');
+  }
+  singleConfession = await singleConfession;
+
   if (!singleConfession) {
     const errorMessage =
       'Confession not found or is removed due to violitions of regulations';
@@ -42,6 +49,15 @@ exports.getConfession = async (req, res) => {
   }
   singleConfession.viewCount += 1;
   singleConfession.save();
-  const { title, confession, color, viewCount, createdAt } = singleConfession;
-  res.render('confession', { title, confession, color, viewCount, createdAt });
+  const { title, confession, color, viewCount, createdAt, editedByStaff } =
+    singleConfession;
+
+  res.render('confession', {
+    title,
+    confession,
+    color,
+    viewCount,
+    createdAt,
+    editedByStaff,
+  });
 };

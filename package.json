@@ -1,7 +1,7 @@
 {
-  "name": "vanilla-nodejs-blog",
+  "name": "vanilla-nodejs-webapp",
   "version": "1.0.0",
-  "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
+  "description": "Anonymous Confessions is a webapp built with vanilla NodeJS (No web frameworks!)",
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
@@ -53,7 +53,6 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "co-body": "^6.1.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
     "cookie": "^0.4.1",

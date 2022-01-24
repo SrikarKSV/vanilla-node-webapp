@@ -79,11 +79,12 @@
 
   &__popular,
   &__about {
-    max-width: 70%;
     margin: auto;
   }
 
   &__popular {
+    max-width: 80%;
+
     h3 {
       margin-top: 8rem;
     }
@@ -103,6 +104,7 @@
   }
 
   &__about {
+    max-width: 70%;
     margin-bottom: 4rem;
     font-size: 1.1rem;
   }

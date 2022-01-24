@@ -65,8 +65,8 @@ function middlewares(req, res) {
 
 async function server(req, res, startTime) {
   if (!ifRequestIsFile(req)) {
+    req.user = await checkUser(req, res);
     res.locals.flashes = req.flash();
-    res.locals.user = await checkUser(req, res);
     res.locals.h = templateHelpers;
   }
 

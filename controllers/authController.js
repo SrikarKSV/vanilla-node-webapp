@@ -81,7 +81,7 @@ exports.logout = (req, res) => {
 };
 
 exports.getLogin = (req, res) => {
-  if (res.locals.user) {
+  if (req.user) {
     req.flash('info', 'User already logged in !');
     return res.writeHead(307, { location: '/' }).end();
   }

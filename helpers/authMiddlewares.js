@@ -3,7 +3,7 @@ const ErrorResponse = require('../lib/errorResponse');
 const User = require('../models/User');
 
 function requireAuth(req, res, roles, callback) {
-  const user = res.locals?.user;
+  const user = req?.user;
   if (!user) {
     const errorMsg = 'Only staff have access for the action to be performed';
     // Return json for a fetch requests

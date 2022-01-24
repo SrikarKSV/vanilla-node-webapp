@@ -6,7 +6,7 @@ const User = require('../models/User');
 
 exports.dashboard = async (req, res) => {
   let postsMarked = null;
-  if (res.locals.user.role === 'admin')
+  if (req.user.role === 'admin')
     postsMarked = await Confession.getPostsMarkedAsSpam();
 
   res.render('dashboard', {
@@ -60,10 +60,10 @@ exports.edit = async (req, res) => {
   const editedConfession = await Confession.findByIdAndUpdate(id, {
     title,
     confession,
-    editedByStaff: res.locals.user._id,
+    editedByStaff: req.user._id,
   });
 
-  await User.findByIdAndUpdate(res.locals.user._id, {
+  await User.findByIdAndUpdate(req.user._id, {
     $addToSet: { postsEdited: editedConfession._id },
   });
 

@@ -14,7 +14,7 @@ block content
       .confession__title
         h2= title
         span.posted-at Posted #[time(datetime=createdAt) #{h.relativeTime(createdAt)}]
-        if user
+        if req.user
           span.views= `${viewCount} views(s)`
           if editedByStaff && editedByStaff.username
             span.last-edited Last edited by #[a(href=`/profile/${editedByStaff.username}` target="_blank")  #{editedByStaff.username}]

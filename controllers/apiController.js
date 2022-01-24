@@ -37,17 +37,17 @@ exports.markConfession = async (req, res) => {
     });
   }
 
-  confession.markedByStaff = res.locals.user._id;
+  confession.markedByStaff = req.user._id;
   confession.save();
 
-  await User.findByIdAndUpdate(res.locals.user._id, {
+  await User.findByIdAndUpdate(req.user._id, {
     $addToSet: { postsMarked: confession._id },
   });
 
   res.json({
     status: 200,
     msg: 'Confession marked successfully!',
-    markedByStaff: res.locals.user.username,
+    markedByStaff: req.user.username,
   });
 };
 

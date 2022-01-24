@@ -37,7 +37,7 @@ exports.getConfession = async (req, res) => {
   let singleConfession = Confession.findOne({ slug });
 
   // If staff is viewing then load last edited staff info
-  if (res.locals.user) {
+  if (req.user) {
     singleConfession.populate('editedByStaff');
   }
   singleConfession = await singleConfession;

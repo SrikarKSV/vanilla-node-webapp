@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     validate: {
-      validator: function (username) {
+      validator(username) {
         return /^[A-Za-z0-9_-]+$/.test(username);
       },
       message:

@@ -1,6 +1,6 @@
-const parse = require('co-body');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const bodyParser = require('../lib/bodyParser');
 const User = require('../models/User');
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -20,7 +20,7 @@ function createSendToken(req, res, user) {
 }
 
 exports.login = async (req, res) => {
-  const { username, password } = await parse.form(req);
+  const { username, password } = await bodyParser.form(req, res);
 
   if (!username || !password) {
     req.flash('error', 'Provide both username and password!');
@@ -43,7 +43,10 @@ exports.login = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const { username, password, confirmPassword, role } = await parse.form(req);
+  const { username, password, confirmPassword, role } = await bodyParser.form(
+    req,
+    res
+  );
 
   if (password !== confirmPassword) {
     req.flash('error', 'The password confirmation does not match!');

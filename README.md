@@ -29,6 +29,6 @@ The goals of the project:
 - [x] Only admin can make new staff accounts
 - [x] Moderator can mark and edit confessions but not delete
 - [x] Admin can view the marked confessions and unmark or delete them
-- [ ] Profile page for staff with titles they edited and marked
+- [x] Profile page for staff with titles they edited and marked
 - [ ] Create own sessions and flash messages without packages
 - [x] Use Intl.RelativeTimeFormat API to get relative time

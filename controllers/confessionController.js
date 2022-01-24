@@ -1,8 +1,8 @@
-const parse = require('co-body');
 const path = require('path');
-const Confession = require('../models/Confession');
-const paginateConfessions = require('../helpers/paginateConfessions');
+const bodyParser = require('../lib/bodyParser');
 const ErrorResponse = require('../lib/errorResponse');
+const paginateConfessions = require('../helpers/paginateConfessions');
+const Confession = require('../models/Confession');
 
 exports.getAllConfessions = async (req, res) => {
   const { confessions, prevPage, nextPage } = await paginateConfessions(
@@ -20,7 +20,7 @@ exports.getAllConfessions = async (req, res) => {
 };
 
 exports.createConfession = async (req, res) => {
-  const { title, confession, color } = await parse.form(req);
+  const { title, confession, color } = await bodyParser.form(req, res);
   const createdConfession = await Confession.create({
     title,
     confession,

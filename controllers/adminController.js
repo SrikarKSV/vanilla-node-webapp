@@ -1,8 +1,8 @@
 const path = require('path');
-const parse = require('co-body');
+const bodyParser = require('../lib/bodyParser');
+const ErrorResponse = require('../lib/errorResponse');
 const Confession = require('../models/Confession');
 const User = require('../models/User');
-const ErrorResponse = require('../lib/errorResponse');
 
 exports.dashboard = async (req, res) => {
   let postsMarked = null;
@@ -46,7 +46,7 @@ exports.getEdit = async (req, res) => {
 
 exports.edit = async (req, res) => {
   const id = path.parse(req.url).name;
-  const { title, confession } = await parse.form(req);
+  const { title, confession } = await bodyParser.form(req, res);
 
   if (!title || !confession) {
     req.flash('error', 'Provide both edited title and confession!');

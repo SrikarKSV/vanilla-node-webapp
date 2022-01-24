@@ -1,4 +1,4 @@
-const parse = require('co-body');
+const bodyParser = require('../lib/bodyParser');
 const paginateConfessions = require('../helpers/paginateConfessions');
 const Confession = require('../models/Confession');
 const User = require('../models/User');
@@ -24,7 +24,7 @@ exports.getAllConfessionsJSON = async (req, res) => {
 };
 
 exports.markConfession = async (req, res) => {
-  const { id } = await parse.json(req);
+  const { id } = await bodyParser.json(req, res);
   const confession = await Confession.findById(id).populate('markedByStaff');
 
   // If already marked
@@ -52,7 +52,7 @@ exports.markConfession = async (req, res) => {
 };
 
 exports.unMarkConfession = async (req, res) => {
-  const { id } = await parse.json(req);
+  const { id } = await bodyParser.json(req, res);
   const confession = await Confession.findById(id).populate('markedByStaff');
 
   // If somebody already unmarked it
@@ -67,7 +67,7 @@ exports.unMarkConfession = async (req, res) => {
 };
 
 exports.deleteConfession = async (req, res) => {
-  const { id } = await parse.json(req);
+  const { id } = await bodyParser.json(req, res);
   const deletedConfession = await Confession.findByIdAndDelete(id);
   if (!deletedConfession) {
     res.statusCode = 410;

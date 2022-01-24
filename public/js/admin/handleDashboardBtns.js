@@ -10,7 +10,6 @@ async function fetchControl(url, method, confessionId) {
 }
 
 async function handleDeleteBtn(button) {
-  console.log('DELETE');
   const confessionId = button.dataset.id;
   const { msg: message, status: statusCode } = await fetchControl(
     '/api/delete',
@@ -35,7 +34,6 @@ async function handleDeleteBtn(button) {
 }
 
 async function handleMarkBtn(button, updateAllConfessionState, allConfessions) {
-  console.log('MARK');
   const confessionId = button.dataset.id;
   const {
     msg: message,
@@ -59,7 +57,6 @@ async function handleMarkBtn(button, updateAllConfessionState, allConfessions) {
 }
 
 async function handleUnMarkBtn(button) {
-  console.log('UNMARK');
   const confessionId = button.dataset.id;
   const { msg: message, status: statusCode } = await fetchControl(
     '/api/unmark',

@@ -1,21 +1,27 @@
-doctype html
-head
-  meta(charset='UTF-8')
-  meta(http-equiv='X-UA-Compatible' content='IE=edge')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  link(rel="stylesheet", href="/css/main.css")
-  title #{user.username} | Anonymous Confessions
-body
-  h1 Profile 
-  h2 Username: #{user.username}
-  p Role: #[mark= user.role]
+extends layout 
 
-  h3 Posts marked 
-  ul 
-    each post in user.postsMarked
-      li: a(href=`/confessions/${post.slug}`)= post.title 
-  
-  h3 Posts edited 
-  ul 
-    each post in user.postsEdited
-      li: a(href=`/confessions/${post.slug}`)= post.title 
+include mixins/_auth-form
+
+block head-tags 
+  link(rel="stylesheet", href="/dist/sass/admin/admin.css")
+
+block content
+  .profile
+    h2.heading-center= user.username
+    p.profile__role= user.role
+
+    h3 Marked posts history
+    if user.postsMarked.length
+      ul
+        each post in user.postsMarked
+          li: a(href=`/confessions/${post.slug}` target="_blank")= post.title 
+    else 
+      h4 No posts marked
+
+    h3 Edited posts history
+    if user.postsEdited.length
+      ul
+        each post in user.postsEdited
+          li: a(href=`/confessions/${post.slug}` target="_blank")= post.title 
+    else 
+      h4 No posts edited

@@ -24,7 +24,7 @@ exports.profile = async (req, res) => {
   if (!user) {
     return res.emit('error', new ErrorResponse('User not found 🤷‍♀️', 404));
   }
-  res.render('profile', { user });
+  res.render('profile', { title: user.username, user });
 };
 
 exports.getEdit = async (req, res) => {

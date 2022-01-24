@@ -64,7 +64,7 @@ exports.edit = async (req, res) => {
   });
 
   await User.findByIdAndUpdate(res.locals.user._id, {
-    $push: { postsEdited: editedConfession._id },
+    $addToSet: { postsEdited: editedConfession._id },
   });
 
   res

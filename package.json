@@ -4,7 +4,7 @@
   "description": "Anonymous Confessions is a blog built with vanilla nodejs (No frameworks!)",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node",
+    "start": "cross-env NODE_ENV=production node server.js",
     "watch": "cross-env NODE_ENV=development nodemon server.js --ignore public/",
     "assets": "parcel watch ./public/js/index.js ./public/js/admin/dashboard.js ./public/sass/main.scss ./public/sass/admin/admin.scss",
     "build": "parcel build ./public/js/index.js ./public/js/admin/dashboard.js ./public/sass/main.scss ./public/sass/admin/admin.scss",

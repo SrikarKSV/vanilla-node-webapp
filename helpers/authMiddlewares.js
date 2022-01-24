@@ -13,7 +13,7 @@ function requireAuth(req, res, roles, callback) {
     }
 
     req.flash('warn', errorMsg);
-    return res.writeHead(302, { location: `/login` }).end();
+    return res.writeHead(307, { location: `/login` }).end();
   }
 
   if (!roles.includes(user.role)) {
@@ -25,7 +25,7 @@ function requireAuth(req, res, roles, callback) {
     }
 
     req.flash('error', errorMsg);
-    return res.writeHead(302, { location: '/dashboard' }).end();
+    return res.writeHead(307, { location: '/dashboard' }).end();
   }
 
   callback();

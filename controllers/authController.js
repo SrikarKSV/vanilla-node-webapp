@@ -24,19 +24,19 @@ exports.login = async (req, res) => {
 
   if (!username || !password) {
     req.flash('error', 'Provide both username and password!');
-    return res.writeHead(302, { location: `/login` }).end();
+    return res.writeHead(303, { location: '/login' }).end();
   }
 
   const user = await User.findOne({ username });
   if (!user) {
     req.flash('error', 'Username provided does not exist!');
-    return res.writeHead(302, { location: `/login` }).end();
+    return res.writeHead(303, { location: '/login' }).end();
   }
 
   const auth = await bcrypt.compare(password, user.password);
   if (!auth) {
     req.flash('error', 'Password provided is incorrect!');
-    return res.writeHead(302, { location: `/login` }).end();
+    return res.writeHead(303, { location: '/login' }).end();
   }
 
   createSendToken(req, res, user);
@@ -49,10 +49,10 @@ exports.signup = async (req, res) => {
   );
 
   if (password !== confirmPassword) {
-    req.flash('error', 'The password confirmation does not match!');
+    req.flash('error', 'The password confirmation does not match !');
     return res
       .writeHead(303, {
-        location: `/signup`,
+        location: '/signup',
       })
       .end();
   }
@@ -65,7 +65,7 @@ exports.signup = async (req, res) => {
   );
   res
     .writeHead(303, {
-      location: `/`,
+      location: '/',
     })
     .end();
 };
@@ -73,17 +73,17 @@ exports.signup = async (req, res) => {
 exports.logout = (req, res) => {
   req.flash('success', 'Successfully logged user out 👋!');
   res
-    .writeHead(302, {
-      location: `/`,
-      'Set-Cookie': `jwt=; Max-Age=1; HttpOnly`,
+    .writeHead(303, {
+      location: '/',
+      'Set-Cookie': 'jwt=; Max-Age=1; HttpOnly',
     })
     .end();
 };
 
 exports.getLogin = (req, res) => {
   if (res.locals.user) {
-    req.flash('info', 'User already logged in');
-    return res.writeHead(302, { location: '/' }).end();
+    req.flash('info', 'User already logged in !');
+    return res.writeHead(307, { location: '/' }).end();
   }
   res.render('login', { title: 'Login' });
 };

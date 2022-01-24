@@ -40,7 +40,7 @@ function sendErrorDev(err, req, res) {
   // Return json for fetch requests
   if (req.headers.accept === 'application/json')
     return res.json({
-      error: errorDetails.message,
+      msg: errorDetails.message,
       status: errorDetails.status,
     });
 
@@ -59,7 +59,7 @@ function sendErrorProd(err, req, res) {
   // Return json for fetch requests
   if (req.headers.accept === 'application/json')
     return res.json({
-      error: errorDetails.message,
+      msg: errorDetails.message,
       status: errorDetails.status,
     });
 

@@ -9,7 +9,7 @@ function requireAuth(req, res, roles, callback) {
     // Return json for a fetch requests
     if (req.headers.accept === 'application/json') {
       res.statusCode = 401;
-      return res.json({ error: errorMsg, status: 401 });
+      return res.json({ msg: errorMsg, status: 401 });
     }
 
     req.flash('warn', errorMsg);
@@ -21,7 +21,7 @@ function requireAuth(req, res, roles, callback) {
     // Return json for a fetch requests
     if (req.headers.accept === 'application/json') {
       res.statusCode = 403;
-      return res.json({ error: errorMsg, status: 403 });
+      return res.json({ msg: errorMsg, status: 403 });
     }
 
     req.flash('error', errorMsg);

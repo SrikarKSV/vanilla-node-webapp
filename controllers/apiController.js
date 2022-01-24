@@ -1,6 +1,7 @@
 const parse = require('co-body');
 const paginateConfessions = require('../helpers/paginateConfessions');
 const Confession = require('../models/Confession');
+const User = require('../models/User');
 
 function sanitizeAllConfessions(allConfessions) {
   const { confessions, nextPage, prevPage } = allConfessions;
@@ -38,6 +39,11 @@ exports.markConfession = async (req, res) => {
 
   confession.markedByStaff = res.locals.user._id;
   confession.save();
+
+  await User.findByIdAndUpdate(res.locals.user._id, {
+    $addToSet: { postsMarked: confession._id },
+  });
+
   res.json({
     status: 200,
     msg: 'Confession marked successfully!',

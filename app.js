@@ -26,10 +26,7 @@ const serve = serveStatic(path.join(__dirname, 'public'));
 const DB =
   process.env.NODE_ENV === 'development'
     ? process.env.DATABASE_DEV
-    : process.env.DATABASE_PROD.replace(
-        '<PASSWORD>',
-        process.env.DATABASE_PASSWORD
-      );
+    : process.env.DATABASE_PROD;
 
 const sessionHandler = session({
   secret: process.env.SECRET,

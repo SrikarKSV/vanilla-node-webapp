@@ -64,6 +64,7 @@
         "avoidEscape": true,
         "allowTemplateLiterals": true
       }
-    ]
+    ],
+    "global-require": 0
   }
 }

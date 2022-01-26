@@ -1,3 +1,4 @@
+const { generateCsrf } = require('../lib/csrf');
 const Confession = require('../models/Confession');
 
 exports.home = async (req, res) => {
@@ -8,5 +9,6 @@ exports.home = async (req, res) => {
 };
 
 exports.newConfession = (req, res) => {
-  res.render('new-confession', { title: 'Write a confession' });
+  const csrfToken = generateCsrf(req);
+  res.render('new-confession', { title: 'Write a confession', csrfToken });
 };

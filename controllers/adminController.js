@@ -1,6 +1,7 @@
 const path = require('path');
 const bodyParser = require('../lib/bodyParser');
 const ErrorResponse = require('../lib/errorResponse');
+const csrf = require('../lib/csrf');
 const Confession = require('../models/Confession');
 const User = require('../models/User');
 
@@ -35,18 +36,26 @@ exports.getEdit = async (req, res) => {
     return res.emit('error', new ErrorResponse(errorMessage, 404));
   }
 
+  const csrfToken = csrf.generateCsrf(req);
+
   const { title, confession, color } = confessionToBeEdited;
   res.render('edit-confession', {
     id,
     title,
     confession,
     color,
+    csrfToken,
   });
 };
 
 exports.edit = async (req, res) => {
   const id = path.parse(req.url).name;
-  const { title, confession } = await bodyParser.form(req, res);
+  const { title, confession, csrfToken } = await bodyParser.form(req, res);
+
+  if (!csrfToken || !csrf.checkValidCsrfToken(csrfToken, req)) {
+    req.flash('error', 'Csrf token not valid ! Try again :)');
+    return res.writeHead(303, { location: req.headers.referer }).end();
+  }
 
   if (!title || !confession) {
     req.flash('error', 'Provide both edited title and confession!');

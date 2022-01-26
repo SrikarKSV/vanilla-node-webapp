@@ -1,9 +1,15 @@
 const bcrypt = require('bcrypt');
 const bodyParser = require('../lib/bodyParser');
+const csrf = require('../lib/csrf');
 const User = require('../models/User');
 
 exports.login = async (req, res) => {
-  const { username, password } = await bodyParser.form(req, res);
+  const { username, password, csrfToken } = await bodyParser.form(req, res);
+
+  if (!csrfToken || !csrf.checkValidCsrfToken(csrfToken, req)) {
+    req.flash('error', 'Csrf token not valid ! Try again :)');
+    return res.writeHead(303, { location: '/login' }).end();
+  }
 
   if (!username || !password) {
     req.flash('error', 'Provide both username and password!');
@@ -29,10 +35,13 @@ exports.login = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const { username, password, confirmPassword, role } = await bodyParser.form(
-    req,
-    res
-  );
+  const { username, password, confirmPassword, role, csrfToken } =
+    await bodyParser.form(req, res);
+
+  if (!csrfToken || !csrf.checkValidCsrfToken(csrfToken, req)) {
+    req.flash('error', 'Csrf token not valid ! Try again :)');
+    return res.writeHead(303, { location: '/signup' }).end();
+  }
 
   if (password !== confirmPassword) {
     req.flash('error', 'The password confirmation does not match !');
@@ -70,9 +79,11 @@ exports.getLogin = (req, res) => {
     req.flash('info', 'User already logged in !');
     return res.writeHead(307, { location: '/' }).end();
   }
-  res.render('login', { title: 'Login' });
+  const csrfToken = csrf.generateCsrf(req);
+  res.render('login', { title: 'Login', csrfToken });
 };
 
 exports.getSignup = (req, res) => {
-  res.render('signup', { title: 'Sign Up' });
+  const csrfToken = csrf.generateCsrf(req);
+  res.render('signup', { title: 'Sign Up', csrfToken });
 };

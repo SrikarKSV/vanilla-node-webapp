@@ -1,6 +1,7 @@
 const path = require('path');
 const bodyParser = require('../lib/bodyParser');
 const ErrorResponse = require('../lib/errorResponse');
+const { checkValidCsrfToken } = require('../lib/csrf');
 const paginateConfessions = require('../helpers/paginateConfessions');
 const Confession = require('../models/Confession');
 
@@ -20,7 +21,16 @@ exports.getAllConfessions = async (req, res) => {
 };
 
 exports.createConfession = async (req, res) => {
-  const { title, confession, color } = await bodyParser.form(req, res);
+  const { title, confession, color, csrfToken } = await bodyParser.form(
+    req,
+    res
+  );
+
+  if (!csrfToken || !checkValidCsrfToken(csrfToken, req)) {
+    req.flash('error', 'Csrf token not valid ! Try again :)');
+    return res.writeHead(303, { location: '/new' }).end();
+  }
+
   const createdConfession = await Confession.create({
     title,
     confession,

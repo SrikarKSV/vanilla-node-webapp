@@ -1,23 +1,6 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const bodyParser = require('../lib/bodyParser');
 const User = require('../models/User');
-
-const maxAge = 3 * 24 * 60 * 60;
-function createToken(id) {
-  return jwt.sign({ id }, process.env.SECRET, { expiresIn: maxAge });
-}
-
-function createSendToken(req, res, user) {
-  const token = createToken(user._id);
-
-  req.flash('success', 'User successfully logged in 👍!');
-  res.writeHead(303, {
-    location: `/`,
-    'Set-Cookie': `jwt=${token}; Max-Age=${maxAge * 1000}; HttpOnly`,
-  });
-  res.end();
-}
 
 exports.login = async (req, res) => {
   const { username, password } = await bodyParser.form(req, res);
@@ -39,7 +22,10 @@ exports.login = async (req, res) => {
     return res.writeHead(303, { location: '/login' }).end();
   }
 
-  createSendToken(req, res, user);
+  req.flash('success', 'User successfully logged in 👍!');
+  // Add userId to current session to login
+  req.session = { ...req.session, userId: user._id };
+  res.writeHead(303, { location: `/` }).end();
 };
 
 exports.signup = async (req, res) => {
@@ -70,14 +56,13 @@ exports.signup = async (req, res) => {
     .end();
 };
 
-exports.logout = (req, res) => {
+exports.logout = async (req, res) => {
   req.flash('success', 'Successfully logged user out 👋!');
-  res
-    .writeHead(303, {
-      location: '/',
-      'Set-Cookie': 'jwt=; Max-Age=1; HttpOnly',
-    })
-    .end();
+  // Remove userId from session
+  const currentSession = req.session;
+  delete currentSession.userId;
+  req.session = { ...currentSession };
+  res.writeHead(303, { location: '/' }).end();
 };
 
 exports.getLogin = (req, res) => {

@@ -10,7 +10,10 @@ function router(req, res) {
   switch (httpMethod) {
     case 'GET': {
       if (URL.match(/^\/login(\/)?$/)) authController.getLogin(req, res);
-      else if (URL.match(/^\/logout(\/)?$/)) authController.logout(req, res);
+      else if (URL.match(/^\/logout(\/)?$/))
+        requireAuth(req, res, ['admin', 'mod'], () =>
+          authController.logout(req, res)
+        );
       else if (URL.match(/^\/signup(\/)?$/))
         requireAuth(req, res, ['admin'], () =>
           authController.getSignup(req, res)

@@ -3,8 +3,6 @@ const path = require('path');
 const serveStatic = require('serve-static');
 const onFinished = require('on-finished');
 const flash = require('connect-flash');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 
 const morgan = require('./lib/morgan');
 const { ifRequestIsFile, matchURL, json } = require('./lib/utils');
@@ -14,53 +12,54 @@ const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const { checkUser } = require('./helpers/authMiddlewares');
 const templateHelpers = require('./helpers/templateHelpers');
+const sessionHandler = require('./lib/session');
 
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
 const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
 const apiRouter = require('./routes/apiRouter');
+const Session = require('./models/Session');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
-
-const DB =
-  process.env.NODE_ENV === 'development'
-    ? process.env.DATABASE_DEV
-    : process.env.DATABASE_PROD;
-
-const sessionHandler = session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: DB }),
-});
 
 const flashHandler = flash();
 
 const app = http.createServer(middlewares);
 
-function middlewares(req, res) {
+async function middlewares(req, res) {
   const startTime = process.hrtime(); // To calculate response time
-  sessionHandler(req, res, () => {
-    req.cookies = cookieParser(req);
-    res.locals = {};
-    res.render = render(req, res);
-    res.json = json;
-    res.on('error', (err) => globalErrorHandler(err, req, res));
+  // sessionHandler(req, res, () => {
+  req.cookies = cookieParser(req);
+  res.locals = {};
+  req.session = await sessionHandler(req, res);
+  const { end } = res;
+  res.end = async function (data, encoding) {
+    res.end = end;
+    if (!req.session) return res.end(data, encoding);
+    console.log(req.session);
+    const currentSession = await Session.findById(req.sessionId);
+    currentSession.session = JSON.stringify(req.session);
+    currentSession.save();
+    res.end(data, encoding);
+  };
+  res.render = render(req, res);
+  res.json = json;
+  res.on('error', (err) => globalErrorHandler(err, req, res));
 
-    if (ifRequestIsFile(req)) {
-      const errorMessage = `${req.headers.host}${req.url} does not exist!`;
-      serve(req, res, () =>
-        res.emit('error', new ErrorResponse(errorMessage, 404))
-      );
-    }
+  if (ifRequestIsFile(req)) {
+    const errorMessage = `${req.headers.host}${req.url} does not exist!`;
+    serve(req, res, () =>
+      res.emit('error', new ErrorResponse(errorMessage, 404))
+    );
+  }
 
-    // Development logging
-    if (process.env.NODE_ENV === 'development')
-      onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
+  // Development logging
+  if (process.env.NODE_ENV === 'development')
+    onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
 
-    flashHandler(req, res, () => server(req, res, startTime));
-  });
+  flashHandler(req, res, () => server(req, res, startTime));
+  // });
 }
 
 async function server(req, res, startTime) {

@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const ErrorResponse = require('../lib/errorResponse');
 const User = require('../models/User');
 
@@ -33,19 +32,16 @@ function requireAuth(req, res, roles, callback) {
 
 function checkUser(req, res) {
   return new Promise((resolve, reject) => {
-    const token = req.cookies?.jwt;
-
-    if (!token) resolve(null);
-
-    jwt
-      .verify(token, process.env.SECRET, async (err, decodedToken) => {
-        if (err) {
-          return resolve(null);
-        }
-        const user = await User.findById(decodedToken.id);
-        return resolve(user);
-      })
-      .catch((err) => res.emit('error', new ErrorResponse(err)));
+    if (req.session?.userId) {
+      try {
+        resolve(User.findById(req.session.userId));
+      } catch (err) {
+        res.emit('error', new ErrorResponse(err, 500));
+      }
+    } else {
+      // User not logged in
+      resolve(null);
+    }
   });
 }
 

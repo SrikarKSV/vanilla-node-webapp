@@ -70,11 +70,12 @@ async function middlewares(req, res) {
 }
 
 async function server(req, res) {
-  if (!ifRequestIsFile(req)) {
-    req.user = await checkUser(req, res);
-    res.locals.flashes = req.flash();
-    res.locals.h = templateHelpers;
-  }
+  // Loading locals
+  req.user = await checkUser(req, res);
+  res.locals.user = req.user;
+  res.locals.currentURL = req.url;
+  res.locals.flashes = req.flash();
+  res.locals.h = templateHelpers;
 
   // Routes
   if (matchURL([/^\/$/, /^\/new(\/)?$/], req.url)) homeRouter(req, res);

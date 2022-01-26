@@ -5,9 +5,9 @@ block head-tags
 
 block content
   .dashboard
-    h2.heading-left.dashboard__greeting Welcome #{req.user.username} 👋
+    h2.heading-left.dashboard__greeting Welcome #{user.username} 👋
 
-    if req.user.role === "admin"
+    if user.role === "admin"
       h3 Marked confessions 
       if postsMarked.length
         section.dashboard__marked-confession

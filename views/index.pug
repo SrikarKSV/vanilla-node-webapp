@@ -30,7 +30,7 @@ html
             ul
               li: a(href="/confessions").accent Read confessions
               li: a(href="/new").btn.btn-red Write confession
-              if req.user
+              if user
                 li: a(href="/dashboard").btn.btn-yellow Dashboard
 
         

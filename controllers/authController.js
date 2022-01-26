@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
 
   req.flash('success', 'User successfully logged in 👍!');
   // Add userId to current session to login
-  req.session = { ...req.session, userId: user._id };
+  req.session.userId = user._id;
   res.writeHead(303, { location: `/` }).end();
 };
 
@@ -68,9 +68,7 @@ exports.signup = async (req, res) => {
 exports.logout = async (req, res) => {
   req.flash('success', 'Successfully logged user out 👋!');
   // Remove userId from session
-  const currentSession = req.session;
-  delete currentSession.userId;
-  req.session = { ...currentSession };
+  delete req.session.userId;
   res.writeHead(303, { location: '/' }).end();
 };
 

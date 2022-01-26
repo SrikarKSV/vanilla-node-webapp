@@ -5,69 +5,62 @@ const onFinished = require('on-finished');
 const flash = require('connect-flash');
 
 const morgan = require('./lib/morgan');
-const { ifRequestIsFile, matchURL, json } = require('./lib/utils');
+const { ifRequestIsFile, matchURL, json, end } = require('./lib/utils');
 const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
+const sessionHandler = require('./lib/session');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
 const { checkUser } = require('./helpers/authMiddlewares');
 const templateHelpers = require('./helpers/templateHelpers');
-const sessionHandler = require('./lib/session');
 
 const homeRouter = require('./routes/homeRouter');
 const confessionRouter = require('./routes/confessionRouter');
 const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
 const apiRouter = require('./routes/apiRouter');
-const Session = require('./models/Session');
 
 const serve = serveStatic(path.join(__dirname, 'public'));
 
 const flashHandler = flash();
 
-const app = http.createServer(middlewares);
-
 async function middlewares(req, res) {
-  const startTime = process.hrtime(); // To calculate response time
-  // sessionHandler(req, res, () => {
-  req.cookies = cookieParser(req);
-  res.locals = {};
-  req.session = await sessionHandler(req, res);
-  const { end } = res;
-  res.end = async function (data, encoding) {
-    res.end = end;
-    if (!req.session) return res.end(data, encoding);
-    console.log(req.session);
-    const currentSession = await Session.findById(req.sessionId);
-    currentSession.session = JSON.stringify(req.session);
-    currentSession.save();
-    res.end(data, encoding);
-  };
+  // To calculate response time
+  const startTime = process.hrtime();
+
+  // Development logging, onFinished is invoked after response if finished
+  if (process.env.NODE_ENV === 'development')
+    onFinished(res, () => morgan.dev(req, res, startTime));
+
+  // Adding helper methods in response object
+  res.end = end(req, res);
   res.render = render(req, res);
   res.json = json;
+
+  // Event emitters used for error handling
   res.on('error', (err) => globalErrorHandler(err, req, res));
 
+  // Static files are served
   if (ifRequestIsFile(req)) {
     const errorMessage = `${req.headers.host}${req.url} does not exist!`;
-    serve(req, res, () =>
+    return serve(req, res, () =>
       res.emit('error', new ErrorResponse(errorMessage, 404))
     );
   }
 
-  // Development logging
-  if (process.env.NODE_ENV === 'development')
-    onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
+  // Middlewares
+  req.cookies = cookieParser(req);
+  req.session = await sessionHandler(req, res);
 
-  flashHandler(req, res, () => server(req, res, startTime));
-  // });
+  // eslint-disable-next-line no-use-before-define
+  flashHandler(req, res, () => server(req, res));
 }
 
-async function server(req, res, startTime) {
-  if (!ifRequestIsFile(req)) {
-    req.user = await checkUser(req, res);
-    res.locals.flashes = req.flash();
-    res.locals.h = templateHelpers;
-  }
+async function server(req, res) {
+  res.locals = {};
+  req.user = await checkUser(req, res);
+  res.locals.flashes = req.flash();
+  res.locals.h = templateHelpers;
 
   // Routes
   if (matchURL([/^\/$/, /^\/new(\/)?$/], req.url)) homeRouter(req, res);
@@ -115,5 +108,7 @@ async function server(req, res, startTime) {
     res.emit('error', new ErrorResponse('Resource not found', 404));
   }
 }
+
+const app = http.createServer(middlewares);
 
 module.exports = app;

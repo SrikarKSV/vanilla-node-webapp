@@ -46,16 +46,6 @@ async function middlewares(req, res) {
     if (process.env.NODE_ENV === 'development')
       onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
 
-    if (ifRequestIsFile(req)) {
-      const errorMessage = `${req.headers.host}${req.url} does not exist!`;
-      return serve(req, res, () =>
-        res.emit('error', new ErrorResponse(errorMessage, 404))
-      );
-    }
-
-    // Middlewares
-    req.cookies = cookieParser(req);
-
     // Helpers methods on response object
     res.locals = {};
     res.render = render(req, res);
@@ -63,6 +53,16 @@ async function middlewares(req, res) {
 
     // Event emitters are used for error handling
     res.on('error', (err) => globalErrorHandler(err, req, res));
+
+    if (ifRequestIsFile(req)) {
+      const errorMessage = `${req.url} does not exist!`;
+      return serve(req, res, () =>
+        res.emit('error', new ErrorResponse(errorMessage, 404))
+      );
+    }
+
+    // Middlewares
+    req.cookies = cookieParser(req);
 
     // eslint-disable-next-line no-use-before-define
     flashHandler(req, res, () => server(req, res, startTime));
@@ -78,8 +78,10 @@ async function server(req, res) {
   res.locals.h = templateHelpers;
 
   // Routes
+  // Accepts: /, /new
   if (matchURL([/^\/$/, /^\/new(\/)?$/], req.url)) homeRouter(req, res);
   else if (
+    // Accepts: /confessions, /confessions/:title-slug
     matchURL(
       [
         /^\/confessions(\/)?$/,
@@ -91,10 +93,12 @@ async function server(req, res) {
   )
     confessionRouter(req, res);
   else if (
+    // Accepts: /login, /logout, /signup
     matchURL([/^\/login(\/)?$/, /^\/logout(\/)?$/, /^\/signup(\/)?$/], req.url)
   )
     authRouter(req, res);
   else if (
+    // Accepts: /dashboard, /profile/:username, /edit/:id
     matchURL(
       [
         /^\/dashboard(\/)?$/,
@@ -106,6 +110,7 @@ async function server(req, res) {
   )
     adminRouter(req, res);
   else if (
+    // Accepts: /api/confessions, /api/mark, /api/unmark, /api/delete
     matchURL(
       [
         /^\/api\/confessions(\/)?$/,
@@ -118,7 +123,7 @@ async function server(req, res) {
     )
   )
     apiRouter(req, res);
-  else if (!ifRequestIsFile(req)) {
+  else {
     // Unhandled routes which are not assets
     res.emit('error', new ErrorResponse('Resource not found', 404));
   }

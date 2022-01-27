@@ -69,8 +69,5 @@
     "> 1%",
     "not dead",
     "last 2 versions"
-  ],
-  "engines": {
-    "node": "14.x"
-  }
+  ]
 }

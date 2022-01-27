@@ -58,7 +58,6 @@
     "cookie": "^0.4.1",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.8",
     "on-finished": "^2.3.0",
     "pug": "^3.0.2",

@@ -30,7 +30,7 @@ function requireAuth(req, res, roles, callback) {
   callback();
 }
 
-function checkUser(req, res) {
+function identifyUser(req, res) {
   return new Promise((resolve, reject) => {
     if (req.session?.userId) {
       try {
@@ -45,4 +45,4 @@ function checkUser(req, res) {
   });
 }
 
-module.exports = { requireAuth, checkUser };
+module.exports = { requireAuth, identifyUser };

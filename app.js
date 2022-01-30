@@ -12,7 +12,7 @@ const render = require('./lib/renderPug');
 const cookieParser = require('./lib/cookieParser');
 const ErrorResponse = require('./lib/errorResponse');
 const { globalErrorHandler } = require('./helpers/errorHandlers');
-const { checkUser } = require('./helpers/authMiddlewares');
+const { identifyUser } = require('./helpers/authMiddlewares');
 const templateHelpers = require('./helpers/templateHelpers');
 
 const homeRouter = require('./routes/homeRouter');
@@ -21,7 +21,7 @@ const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
 const apiRouter = require('./routes/apiRouter');
 
-const serve = serveStatic(path.join(__dirname, 'public'));
+const serve = serveStatic(path.join(__dirname, 'public'), { maxAge: '1y' });
 
 const DB =
   process.env.NODE_ENV === 'development'
@@ -71,7 +71,7 @@ async function middlewares(req, res) {
 
 async function server(req, res) {
   // Loading locals
-  req.user = await checkUser(req, res);
+  req.user = await identifyUser(req, res);
   res.locals.user = req.user;
   res.locals.currentURL = req.url;
   res.locals.flashes = req.flash();

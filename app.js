@@ -21,7 +21,9 @@ const authRouter = require('./routes/authRouter');
 const adminRouter = require('./routes/adminRouter');
 const apiRouter = require('./routes/apiRouter');
 
-const serve = serveStatic(path.join(__dirname, 'public'), { maxAge: '1y' });
+const serve = serveStatic(path.join(__dirname, 'public'), {
+  maxAge: process.env.NODE_ENV === 'production' ? '1y' : 0,
+});
 
 const DB =
   process.env.NODE_ENV === 'development'
@@ -39,9 +41,9 @@ const sessionHandler = session({
 
 const flashHandler = flash();
 
-async function middlewares(req, res) {
+function middlewares(req, res) {
   const startTime = process.hrtime(); // To calculate response time
-  sessionHandler(req, res, () => {
+  sessionHandler(req, res, async () => {
     // Development logging
     if (process.env.NODE_ENV === 'development')
       onFinished(res, () => morgan.dev(req, res, startTime)); // onFinished is invoked after response if finished
@@ -63,15 +65,15 @@ async function middlewares(req, res) {
 
     // Middlewares
     req.cookies = cookieParser(req);
+    req.user = await identifyUser(req, res);
 
     // eslint-disable-next-line no-use-before-define
     flashHandler(req, res, () => server(req, res, startTime));
   });
 }
 
-async function server(req, res) {
+function server(req, res) {
   // Loading locals
-  req.user = await identifyUser(req, res);
   res.locals.user = req.user;
   res.locals.currentURL = req.url;
   res.locals.flashes = req.flash();

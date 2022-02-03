@@ -37,6 +37,8 @@
   },
   "homepage": "https://github.com/SrikarKSV/vanilla-nodejs-blog#readme",
   "devDependencies": {
+    "@parcel/optimizer-css": "^2.2.1",
+    "@parcel/transformer-css-experimental": "^2.2.1",
     "@parcel/transformer-sass": "^2.2.1",
     "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
